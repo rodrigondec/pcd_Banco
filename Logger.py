@@ -5,7 +5,7 @@ class Log(object):
     @staticmethod
     def setup_logger(logger_name, log_file, level=INFO):
         l = getLogger(logger_name)
-        formatter = Formatter('%(asctime)s;%(message)s', "%H:%M:%S")
+        formatter = Formatter('%(levelname)s;%(asctime)s;%(message)s', "%H:%M:%S")
         fileHandler = FileHandler(log_file, mode='w')
         fileHandler.setFormatter(formatter)
         streamHandler = StreamHandler()
@@ -13,6 +13,7 @@ class Log(object):
 
         l.setLevel(level)
         l.addHandler(fileHandler)
+        return l
 
     dir = "logs/"
 
@@ -20,6 +21,10 @@ class Log(object):
         Log.setup_logger(nome, Log.dir+nome+".log")
         self.log =  getLogger(nome)
 
-    def print(self, msg):
-        print(str(strftime("%H:%M:%S"))+" "+msg)
+    def info(self, msg):
+        print("Info "+str(strftime("%H:%M:%S"))+" "+msg)
         self.log.info(msg)
+
+    def warning(self, msg):
+        print("Warning "+str(strftime("%H:%M:%S")) + " " + msg)
+        self.log.warning(msg)
