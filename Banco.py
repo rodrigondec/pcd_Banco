@@ -19,7 +19,6 @@ class Banco(object):
 
         self.dinheiro = 0
         self.l_dinheiro = RLock()
-        self.c_dinheiro = Condition(self.l_dinheiro)
 
         self.dinheiro_investimento = Event()
         self.dinheiro_investimento.clear()
@@ -56,8 +55,6 @@ class Banco(object):
                 Banco.log.print("Banco esperando condicao para investir")
                 Banco().dinheiro_investimento.wait()
             with self.l_dinheiro:
-
-                # self.c_dinheiro.wait()
 
                 Banco.log.print("Banco investindo o dinheiro dos clientes. Bloqueando operacoes de saque e "
                                 "transferencia")
@@ -100,7 +97,6 @@ class Banco(object):
             Banco.log.print("Banco deu " + str(valor) + " para a Pessoa " + str(id_pessoa) + ". Ele tem agora " + str(
                 self.dinheiro))
             if self.dinheiro < 100:
-                # self.c_dinheiro.notify()
                 self.dinheiro_investimento.clear()
         return valor
 
@@ -110,7 +106,6 @@ class Banco(object):
             self.dinheiro += valor
             Banco.log.print("Banco recebeu "+str(valor)+" da Pessoa "+str(id_pessoa)+". Ele tem agora "+str(self.dinheiro))
             if self.dinheiro >= 100:
-                # self.c_dinheiro.notify()
                 self.dinheiro_investimento.set()
         return True
 
