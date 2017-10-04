@@ -1,14 +1,13 @@
 from Banco import Banco
 from Pessoa import Pessoa
+import logging
 
 
-qt_pessoas = 15
+qt_pessoas = 5
 
-Banco()
+banco = Banco()
 
 for _ in range(0, qt_pessoas):
     Pessoa()
 
-banco1 = Banco()
-banco2 = Banco()
-print(banco1, banco2)
+Pessoa.start()
