@@ -1,7 +1,8 @@
-from threading import Thread, RLock, Condition, Event
+from threading import Thread, Event
 from Logger import Log
 from time import sleep
-
+from Caixa import Caixa
+from Conta import Conta
 
 class Banco(object):
     """banco"""
@@ -14,11 +15,7 @@ class Banco(object):
         return type._instance
 
     def init(self):
-        self.clientes = {}
-        self.clientes_investimento = {}
-
-        self.dinheiro = 0
-        self.l_dinheiro = RLock()
+        self.contas = {}
 
         self.dinheiro_investimento = Event()
         self.dinheiro_investimento.clear()
@@ -26,26 +23,11 @@ class Banco(object):
         self.operacao_liberada = Event()
         self.operacao_liberada.set()
 
-        self.t = Thread(target=self.investimento)
-        self.t.start()
-
-        self.t_consistencia = Thread(target=self.confirir_consistencia)
-        self.t_consistencia.start()
+        self.t = Thread(target=self.investimento, name='Banco_Investimento')
+        # self.t.start()
 
     def __str__(self):
         return "Banco"
-
-    def confirir_consistencia(self):
-        while True:
-            quantia = 0
-            for id_pessoa, valor in self.clientes.items():
-                quantia += valor
-            if quantia != self.dinheiro:
-                Banco.log.warning("Banco ERRO NO DINHEIRO!!!!!!!!!!!!!!!!!!!!!!!!!"
-                                "\n\tClientes tem "+str(quantia)+" mas o banco so tem "+str(self.dinheiro))
-            else:
-                Banco.log.info("Banco OK! Ele tem "+str(self.dinheiro))
-            sleep(1)
 
     def investimento(self):
         while True:
@@ -77,7 +59,7 @@ class Banco(object):
             sleep(15)
 
     def criar_conta(self, id_pessoa):
-        self.clientes[id_pessoa] = Conta(id_pessoa)
+        self.contas[id_pessoa] = Conta(id_pessoa)
 
     def saldo(self, id_pessoa):
         return self.clientes[id_pessoa]
