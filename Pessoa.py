@@ -46,53 +46,53 @@ class Pessoa(object):
             self.transferir(randrange(50, 200, 50))
 
     def trabalhar(self, valor):
-        Pessoa.log.info("Pessoa " + str(self.id_pessoa) + " vai trabalhar")
+        Pessoa.log.info("vai trabalhar")
         sleep(5)
-        Pessoa.log.info("Pessoa " + str(self.id_pessoa) + " ganhou "+str(valor))
+        Pessoa.log.info("ganhou "+str(valor))
         self.dinheiro += valor
         self.depositar()
 
     def gastar(self, valor):
-        Pessoa.log.info("Pessoa " + str(self.id_pessoa) + " vai gastar " + str(valor))
+        Pessoa.log.info("vai gastar " + str(valor))
         try:
             if self.dinheiro < valor:
-                Pessoa.log.info("Pessoa " + str(self.id_pessoa) + " nao tem dinheiro vivo o suficiente. falta "+ str(valor-self.dinheiro))
+                Pessoa.log.info("nao tem dinheiro vivo o suficiente. falta "+ str(valor-self.dinheiro))
                 self.sacar(valor-self.dinheiro)
-            Pessoa.log.info("Pessoa " + str(self.id_pessoa) + " gastou " + str(valor))
+            Pessoa.log.info("gastou " + str(valor))
         except Exception:
-            Pessoa.log.info("Pessoa " + str(self.id_pessoa) + " nao tem saldo. Tem so "+str(Banco().saldo(self.id_pessoa))+" para sacar. Ela esta triste :c")
+            Pessoa.log.info("nao tem saldo. Tem so "+str(Banco().saldo(self.id_pessoa))+" para sacar. Ela esta triste :c")
             self.triste = True
 
     def depositar(self):
-        Pessoa.log.info("Pessoa " + str(self.id_pessoa) + " vai depositar " + str(self.dinheiro))
+        Pessoa.log.info("vai depositar " + str(self.dinheiro))
         quantia = self.dinheiro
         Banco().depositar(self.id_pessoa, self.dinheiro)
         self.dinheiro = 0
-        Pessoa.log.info("Pessoa " + str(self.id_pessoa) + " depositou " + str(quantia)+". Ela tem agora "+str(Banco().saldo(self.id_pessoa))+" no banco. Ela esta satisfeita")
+        Pessoa.log.info("depositou " + str(quantia)+". Ela tem agora "+str(Banco().saldo(self.id_pessoa))+" no banco. Ela esta satisfeita")
         self.triste = False
 
     def sacar(self, valor):
-        Pessoa.log.info("Pessoa " + str(self.id_pessoa) + " pergunta, operacoes liberadas?")
+        Pessoa.log.info("pergunta, operacoes liberadas?")
         if not Banco().operacao_liberada.is_set():
-            Pessoa.log.info("Pessoa " + str(self.id_pessoa) + " espera operacoes liberaram")
+            Pessoa.log.info("espera operacoes liberaram")
             Banco().operacao_liberada.wait()
-        Pessoa.log.info("Pessoa " + str(self.id_pessoa) + " vai sacar "+str(valor))
+        Pessoa.log.info("vai sacar "+str(valor))
 
         Banco().sacar(self.id_pessoa, valor)
-        Pessoa.log.info("Pessoa " + str(self.id_pessoa) + " sacou "+str(valor)+". Ela esta feliz :D")
+        Pessoa.log.info("sacou "+str(valor)+". Ela esta feliz :D")
 
     def transferir(self, valor):
-        Pessoa.log.info("Pessoa " + str(self.id_pessoa) + " pergunta, operacoes liberadas?")
+        Pessoa.log.info("pergunta, operacoes liberadas?")
         if not Banco().operacao_liberada.is_set():
-            Pessoa.log.info("Pessoa " + str(self.id_pessoa) + " espera operacoes liberaram")
+            Pessoa.log.info("espera operacoes liberaram")
             Banco().operacao_liberada.wait()
         pessoa_d = choice([pessoa for pessoa in Pessoa.lista_pessoas if pessoa != self])
-        Pessoa.log.info("Pessoa " + str(self.id_pessoa) + " vai transferir "+str(valor)+" para Pessoa "+str(pessoa_d.id_pessoa))
+        Pessoa.log.info("vai transferir "+str(valor)+" para Pessoa "+str(pessoa_d.id_pessoa))
 
         assert isinstance(pessoa_d, Pessoa)
         try:
             Banco().transferir(self.id_pessoa, pessoa_d.id_pessoa, valor)
-            Pessoa.log.info("Pessoa " + str(self.id_pessoa) + " transferiu "+str(valor)+" para Pessoa "+str(pessoa_d.id_pessoa))
+            Pessoa.log.info("transferiu "+str(valor)+" para Pessoa "+str(pessoa_d.id_pessoa))
         except Exception:
-            Pessoa.log.info("Pessoa " + str(self.id_pessoa) + " nao tem saldo o suficiente para trasnsferir. Ela esta triste :c")
+            Pessoa.log.info("nao tem saldo o suficiente para trasnsferir. Ela esta triste :c")
             self.triste = True

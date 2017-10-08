@@ -49,13 +49,13 @@ class Banco(object):
 
     def investimento(self):
         while True:
-            Banco.log.info("Banco pergunta, tenho dinheiro pra investir?")
+            Banco.log.info("pergunta, tenho dinheiro pra investir?")
             if not self.dinheiro_investimento.is_set():
-                Banco.log.info("Banco esperando condicao para investir")
+                Banco.log.info("esperando condicao para investir")
                 Banco().dinheiro_investimento.wait()
             with self.l_dinheiro:
 
-                Banco.log.info("Banco investindo o dinheiro dos clientes. Bloqueando operacoes de saque e "
+                Banco.log.info("investindo o dinheiro dos clientes. Bloqueando operacoes de saque e "
                                 "transferencia")
                 self.operacao_liberada.clear()
 
@@ -71,14 +71,13 @@ class Banco(object):
                     self.clientes[id_pessoa] += valor + valor / 10
                     self.clientes_investimento[id_pessoa] = 0
 
-                Banco.log.info("Banco terminou de investir")
+                Banco.log.info("terminou de investir")
                 self.operacao_liberada.set()
 
             sleep(15)
 
     def criar_conta(self, id_pessoa):
-        self.clientes[str(id_pessoa)] = 0
-        self.clientes_investimento[id_pessoa] = 0
+        self.clientes[id_pessoa] = Conta(id_pessoa)
 
     def saldo(self, id_pessoa):
         return self.clientes[id_pessoa]
@@ -93,7 +92,7 @@ class Banco(object):
         with self.l_dinheiro:
             self.clientes[id_pessoa] -= valor
             self.dinheiro -= valor
-            Banco.log.info("Banco deu " + str(valor) + " para a Pessoa " + str(id_pessoa) + ". Ele tem agora " + str(
+            Banco.log.info("deu " + str(valor) + " para a Pessoa " + str(id_pessoa) + ". Ele tem agora " + str(
                 self.dinheiro))
             if self.dinheiro < 100:
                 self.dinheiro_investimento.clear()
@@ -103,7 +102,7 @@ class Banco(object):
         with self.l_dinheiro:
             self.clientes[id_pessoa] += valor
             self.dinheiro += valor
-            Banco.log.info("Banco recebeu "+str(valor)+" da Pessoa "+str(id_pessoa)+". Ele tem agora "+str(self.dinheiro))
+            Banco.log.info("recebeu "+str(valor)+" da Pessoa "+str(id_pessoa)+". Ele tem agora "+str(self.dinheiro))
             if self.dinheiro >= 100:
                 self.dinheiro_investimento.set()
         return True
