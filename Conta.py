@@ -1,6 +1,7 @@
 from threading import RLock
 from Exceptions import SaldoException
 
+
 class Conta(object):
     """Conta"""
 

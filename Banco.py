@@ -1,14 +1,16 @@
-from threading import Thread, Event
+from threading import Thread
 from Logger import Log
 from time import sleep
 from Caixa import Caixa
 from Conta import Conta
-from contextlib import ExitStack
 from Exceptions import TransfException
+
 
 class Banco(object):
     """banco"""
     log = Log("banco")
+    qt_caixas = 1
+
 
     def __new__(type):
         if not '_instance' in type.__dict__:
@@ -17,7 +19,7 @@ class Banco(object):
         return type._instance
 
     def init(self):
-        for _ in range(0, 1):
+        for _ in range(0, Banco.qt_caixas):
             Caixa()
 
         self.t = Thread(target=self.investimento, name='Banco_Investimento')

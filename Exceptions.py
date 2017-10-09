@@ -6,6 +6,7 @@ class TransfException(Exception):
     def __str__(self):
         return repr(self.message)
 
+
 class SaldoException(Exception):
     """Exception de saldo"""
     def __init__(self, message="Saldo insuficiente"):

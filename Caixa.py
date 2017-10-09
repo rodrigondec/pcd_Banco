@@ -1,4 +1,4 @@
-from threading import Thread, Lock
+from threading import Thread
 from Logger import Log
 from queue import Queue
 

@@ -5,6 +5,7 @@ from Banco import Banco
 from Logger import Log
 from Exceptions import SaldoException, TransfException
 
+
 class Pessoa(object):
     """pessoa"""
     count_pessoas = 0
@@ -78,7 +79,8 @@ class Pessoa(object):
         quantia = self.dinheiro
         Banco().depositar(self, self.dinheiro)
         self.dinheiro = 0
-        Pessoa.log.info("depositou {}. Ela tem agora {} no banco. Ela esta satisfeita".format(quantia, Banco().saldo(self)))
+        Pessoa.log.info("depositou {}. Ela tem agora {} no banco."
+                        " Ela esta satisfeita".format(quantia, Banco().saldo(self)))
         self.triste = False
 
     def sacar(self, valor):
