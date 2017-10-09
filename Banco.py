@@ -17,6 +17,9 @@ class Banco(object):
         return type._instance
 
     def init(self):
+        for _ in range(0, 1):
+            Caixa()
+
         self.t = Thread(target=self.investimento, name='Banco_Investimento')
         self.t.start()
 
@@ -49,16 +52,15 @@ class Banco(object):
         return Conta.ver_saldo(pessoa.get_id())
 
     def sacar(self, pessoa, valor):
-        Caixa.fila.put(pessoa)
+        self._entrar_fila(pessoa)
         Conta.realizar_saque(pessoa.get_id(), valor)
 
     def depositar(self, pessoa, valor):
-        Caixa.fila.put(pessoa)
+        self._entrar_fila(pessoa)
         Conta.realizar_deposito(pessoa.get_id(), valor)
 
     def transferir(self, pessoa_o, pessoa_d, valor):
-        Caixa.fila.put(pessoa_o)
-
+        self._entrar_fila(pessoa_o)
         conta_o = Conta.get_conta(pessoa_o.get_id())
         conta_d = Conta.get_conta(pessoa_d.get_id())
 
@@ -72,10 +74,17 @@ class Banco(object):
             conta_o.sacar(valor)
             conta_d.depositar(valor)
 
-            if conta_o.saldo() != (saldo_o_antes-valor) or conta_d.saldo() != (saldo_d_antes-valor):
+            if conta_o.saldo() != (saldo_o_antes-valor) or conta_d.saldo() != (saldo_d_antes+valor):
                 conta_o.dinheiro = saldo_o_antes
                 conta_d.dinheiro = saldo_d_antes
                 raise TransfException()
         finally:
             conta_o.lock.release()
             conta_d.lock.release()
+
+    def _entrar_fila(self, pessoa):
+        type(pessoa).log.info("entrou na fila do banco")
+        Caixa.fila.put(pessoa)
+        if not pessoa.vez.is_set():
+            type(pessoa).log.info("espera sua vez")
+            pessoa.vez.wait()
