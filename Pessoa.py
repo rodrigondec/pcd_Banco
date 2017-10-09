@@ -1,8 +1,9 @@
-from threading import Thread
+from threading import Thread, Event
 from time import sleep
 from random import choice, randrange
 from Banco import Banco
 from Logger import Log
+from Exceptions import SaldoException
 
 class Pessoa(object):
     """pessoa"""
@@ -19,12 +20,18 @@ class Pessoa(object):
         Pessoa.count_pessoas += 1
         self.id_pessoa = str(Pessoa.count_pessoas)
         Pessoa.lista_pessoas.append(self)
-        Banco().criar_conta(self.id_pessoa)
+        Banco().criar_conta(self)
 
         self.dinheiro = 0
         self.triste = False
 
-        self.t = Thread(target=self.viver)
+        self.vez = Event()
+        self.vez.clear()
+
+        self.uso_caixa = Event()
+        self.uso_caixa.clear()
+
+        self.t = Thread(target=self.viver, name=("Pessoa "+self.id_pessoa))
 
     def __str__(self):
         return "Pessoa "+self.id_pessoa
@@ -35,7 +42,7 @@ class Pessoa(object):
             sleep(5)
 
     def fazer_acao(self):
-        acao = randrange(1, 3)
+        acao = randrange(1, 4)
         if self.triste:
             acao = 2
         if acao == 1:
@@ -56,36 +63,31 @@ class Pessoa(object):
         Pessoa.log.info("vai gastar " + str(valor))
         try:
             if self.dinheiro < valor:
-                Pessoa.log.info("nao tem dinheiro vivo o suficiente. falta "+ str(valor-self.dinheiro))
+                Pessoa.log.info("nao tem dinheiro vivo o suficiente. falta {}".format(valor-self.dinheiro))
                 self.sacar(valor-self.dinheiro)
-            Pessoa.log.info("gastou " + str(valor))
-        except Exception:
-            Pessoa.log.info("nao tem saldo. Tem so "+str(Banco().saldo(self.id_pessoa))+" para sacar. Ela esta triste :c")
+            Pessoa.log.info("gastou {}".format(valor))
+        except SaldoException as e:
+            Pessoa.log.info(e.message)
             self.triste = True
 
     def depositar(self):
-        Pessoa.log.info("vai depositar " + str(self.dinheiro))
+        Pessoa.log.info("vai depositar {}".format(self.dinheiro))
         quantia = self.dinheiro
-        Banco().depositar(self.id_pessoa, self.dinheiro)
+        Banco().depositar(self, self.dinheiro)
         self.dinheiro = 0
-        Pessoa.log.info("depositou " + str(quantia)+". Ela tem agora "+str(Banco().saldo(self.id_pessoa))+" no banco. Ela esta satisfeita")
+        Pessoa.log.info("depositou {}. Ela tem agora {} no banco. Ela esta satisfeita".format(quantia, Banco().saldo(self)))
         self.triste = False
 
     def sacar(self, valor):
-        Pessoa.log.info("pergunta, operacoes liberadas?")
-        if not Banco().operacao_liberada.is_set():
-            Pessoa.log.info("espera operacoes liberaram")
-            Banco().operacao_liberada.wait()
         Pessoa.log.info("vai sacar "+str(valor))
-
-        Banco().sacar(self.id_pessoa, valor)
-        Pessoa.log.info("sacou "+str(valor)+". Ela esta feliz :D")
+        # try:
+        Banco().sacar(self, valor)
+        # except SaldoException as err:
+        #     Pessoa.log.info(err.message)
+            # self.triste = True
+        Pessoa.log.info("sacou {}. Ela esta feliz :D".format(valor))
 
     def transferir(self, valor):
-        Pessoa.log.info("pergunta, operacoes liberadas?")
-        if not Banco().operacao_liberada.is_set():
-            Pessoa.log.info("espera operacoes liberaram")
-            Banco().operacao_liberada.wait()
         pessoa_d = choice([pessoa for pessoa in Pessoa.lista_pessoas if pessoa != self])
         Pessoa.log.info("vai transferir "+str(valor)+" para Pessoa "+str(pessoa_d.id_pessoa))
 
@@ -96,3 +98,6 @@ class Pessoa(object):
         except Exception:
             Pessoa.log.info("nao tem saldo o suficiente para trasnsferir. Ela esta triste :c")
             self.triste = True
+
+    def get_id(self):
+        return self.id_pessoa
