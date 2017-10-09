@@ -29,3 +29,7 @@ class Log(object):
     def warning(self, msg):
         print("Warning "+str(strftime("%H:%M:%S"))+" "+current_thread().name+": "+msg)
         self.log.warning(msg)
+
+    def error(self, msg):
+        print("Error " + str(strftime("%H:%M:%S")) + " " + current_thread().name + ": " + msg)
+        self.log.error(msg)
