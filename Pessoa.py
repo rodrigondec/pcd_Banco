@@ -3,7 +3,7 @@ from time import sleep
 from random import choice, randrange
 from Banco import Banco
 from Logger import Log
-from Exceptions import SaldoException
+from Exceptions import SaldoException, TransfException
 
 class Pessoa(object):
     """pessoa"""
@@ -38,6 +38,8 @@ class Pessoa(object):
 
     def viver(self):
         while True:
+            self.uso_caixa.clear()
+            self.vez.clear()
             self.fazer_acao()
             sleep(5)
 
@@ -51,6 +53,7 @@ class Pessoa(object):
             self.trabalhar(randrange(10, 70, 10))
         elif acao == 3:
             self.transferir(randrange(50, 200, 50))
+        self.uso_caixa.set()
 
     def trabalhar(self, valor):
         Pessoa.log.info("vai trabalhar")
@@ -67,7 +70,7 @@ class Pessoa(object):
                 self.sacar(valor-self.dinheiro)
             Pessoa.log.info("gastou {}".format(valor))
         except SaldoException as e:
-            Pessoa.log.info(e.message)
+            Pessoa.log.info("{}. Ela esta triste :c".format(e.message))
             self.triste = True
 
     def depositar(self):
@@ -80,23 +83,19 @@ class Pessoa(object):
 
     def sacar(self, valor):
         Pessoa.log.info("vai sacar "+str(valor))
-        # try:
         Banco().sacar(self, valor)
-        # except SaldoException as err:
-        #     Pessoa.log.info(err.message)
-            # self.triste = True
         Pessoa.log.info("sacou {}. Ela esta feliz :D".format(valor))
 
     def transferir(self, valor):
         pessoa_d = choice([pessoa for pessoa in Pessoa.lista_pessoas if pessoa != self])
-        Pessoa.log.info("vai transferir "+str(valor)+" para Pessoa "+str(pessoa_d.id_pessoa))
+        Pessoa.log.info("vai transferir {} para Pessoa {}".format(valor, pessoa_d))
 
         assert isinstance(pessoa_d, Pessoa)
         try:
-            Banco().transferir(self.id_pessoa, pessoa_d.id_pessoa, valor)
-            Pessoa.log.info("transferiu "+str(valor)+" para Pessoa "+str(pessoa_d.id_pessoa))
-        except Exception:
-            Pessoa.log.info("nao tem saldo o suficiente para trasnsferir. Ela esta triste :c")
+            Banco().transferir(self, pessoa_d, valor)
+            Pessoa.log.info("transferiu {} para Pessoa {}".format(valor, pessoa_d))
+        except (SaldoException, TransfException) as e:
+            Pessoa.log.info("{}. Ela esta triste :c".format(e.message))
             self.triste = True
 
     def get_id(self):
