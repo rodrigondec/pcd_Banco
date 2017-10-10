@@ -32,7 +32,7 @@ class Pessoa(object):
         self.uso_caixa = Event()
         self.uso_caixa.clear()
 
-        self.t = Thread(target=self.viver, name=("Pessoa "+self.id_pessoa))
+        self.t = Thread(target=self.viver, name=self)
 
     def __str__(self):
         return "Pessoa "+self.id_pessoa
@@ -89,7 +89,7 @@ class Pessoa(object):
         Pessoa.log.info("sacou {}. Ela esta feliz :D".format(valor))
 
     def transferir(self, valor):
-        pessoa_d = choice([pessoa for pessoa in Pessoa.lista_pessoas if pessoa != self])
+        pessoa_d = choice([pessoa for pessoa in Pessoa.lista_pessoas if pessoa != self and not isinstance(pessoa, Dependente)])
         Pessoa.log.info("vai transferir {} para Pessoa {}".format(valor, pessoa_d))
 
         assert isinstance(pessoa_d, Pessoa)
@@ -102,3 +102,18 @@ class Pessoa(object):
 
     def get_id(self):
         return self.id_pessoa
+
+
+class Dependente(Pessoa):
+    """Pessoa dependente"""
+
+    def __init__(self):
+        self.responsavel = choice([pessoa for pessoa in Pessoa.lista_pessoas if not isinstance(pessoa, Dependente)])
+        Pessoa.__init__(self)
+        print(self)
+
+    def __str__(self):
+        return "Pessoa {}, dependente de {}".format(self.id_pessoa, self.responsavel.id_pessoa)
+
+    def get_id(self):
+        return self.responsavel.id_pessoa
