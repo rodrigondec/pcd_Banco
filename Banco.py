@@ -9,7 +9,7 @@ from Exceptions import TransfException
 class Banco(object):
     """banco"""
     log = Log("banco")
-    qt_caixas = 1
+    qt_caixas = None
 
 
     def __new__(type):
