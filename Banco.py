@@ -1,9 +1,10 @@
-from threading import Thread
+from threading import Thread, Event
 from Logger import Log
 from time import sleep
 from Caixa import Caixa
 from Conta import Conta
 from Exceptions import TransfException
+from Operacao import Operacao, OperacaoU, OperacaoB, Deposito, Saldo, Saque, Transferencia
 
 
 class Banco(object):
@@ -22,6 +23,9 @@ class Banco(object):
         for _ in range(0, Banco.qt_caixas):
             Caixa()
 
+        self.disponivel = Event()
+        self.disponivel.clear()
+
         self.t = Thread(target=self.investimento, name='Banco_Investimento')
         self.t.start()
 
@@ -32,6 +36,7 @@ class Banco(object):
         sleep(10)
         while True:
             try:
+                self.disponivel.clear()
                 Banco.log.info("investimento iniciando")
                 for id_pessoa, conta  in Conta.contas.items():
                     conta.lock.acquire()
@@ -44,47 +49,27 @@ class Banco(object):
             finally:
                 for id_pessoa, conta  in Conta.contas.items():
                     conta.lock.release()
+                self.disponivel.set()
 
             sleep(15)
 
     def criar_conta(self, pessoa):
         Conta(pessoa.get_id())
 
-    def saldo(self, pessoa):
-        return Conta.ver_saldo(pessoa.get_id())
+    def realizar_operacao(self, operacao):
+        assert isinstance(operacao, Operacao)
+        if isinstance(operacao, OperacaoU):
+            operacao.before(Conta.get_conta(operacao.pessoa.get_id()))
+        elif isinstance(operacao, OperacaoB):
+            operacao.before(conta_o=Conta.get_conta(operacao.pessoa.get_id()),
+                            conta_d=Conta.get_conta(operacao.pessoa_d.get_id()))
 
-    def sacar(self, pessoa, valor):
-        self._entrar_fila(pessoa)
-        Conta.realizar_saque(pessoa.get_id(), valor)
+        if not isinstance(operacao, Saldo):
+            self._adicionar_fila(operacao.pessoa)
 
-    def depositar(self, pessoa, valor):
-        self._entrar_fila(pessoa)
-        Conta.realizar_deposito(pessoa.get_id(), valor)
+        return operacao.execute()
 
-    def transferir(self, pessoa_o, pessoa_d, valor):
-        self._entrar_fila(pessoa_o)
-        conta_o = Conta.get_conta(pessoa_o.get_id())
-        conta_d = Conta.get_conta(pessoa_d.get_id())
-
-        try:
-            conta_o.lock.acquire()
-            conta_d.lock.acquire()
-
-            saldo_o_antes = conta_o.saldo()
-            saldo_d_antes = conta_d.saldo()
-
-            conta_o.sacar(valor)
-            conta_d.depositar(valor)
-
-            if conta_o.saldo() != (saldo_o_antes-valor) or conta_d.saldo() != (saldo_d_antes+valor):
-                conta_o.dinheiro = saldo_o_antes
-                conta_d.dinheiro = saldo_d_antes
-                raise TransfException()
-        finally:
-            conta_o.lock.release()
-            conta_d.lock.release()
-
-    def _entrar_fila(self, pessoa):
+    def _adicionar_fila(self, pessoa):
         type(pessoa).log.info("entrou na fila do banco")
         Caixa.fila.put(pessoa)
         if not pessoa.vez.is_set():
