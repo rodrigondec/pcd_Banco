@@ -51,7 +51,7 @@ class OperacaoBinary(Operacao):
 
 
 class Saldo(OperacaoUnary):
-    """"""
+    """Operação de saldo"""
     def __init__(self, pessoa):
         OperacaoUnary.__init__(self, pessoa)
         self.conta = None
@@ -74,7 +74,7 @@ class Saldo(OperacaoUnary):
 
 
 class Deposito(OperacaoUnary):
-    """"""
+    """Operação de depósito"""
     def __init__(self, pessoa, valor):
         OperacaoUnary.__init__(self, pessoa)
         self.valor = valor
@@ -108,7 +108,7 @@ class Deposito(OperacaoUnary):
 
 
 class Saque(OperacaoUnary):
-    """"""
+    """Operação de saque"""
     def __init__(self, pessoa, valor):
         OperacaoUnary.__init__(self, pessoa)
         self.valor = valor
@@ -142,7 +142,7 @@ class Saque(OperacaoUnary):
 
 
 class Transferencia(OperacaoBinary):
-    """"""
+    """Operação de transferência"""
     def __init__(self, pessoa_o, valor, pessoa_d):
         OperacaoBinary.__init__(self, pessoa_o, pessoa_d)
         self.valor = valor
