@@ -4,21 +4,16 @@
 
 # Executando
 
-Para executar as abordagens dos problemas, o usuário deverá executar os programas dentro de suas respectivas pastas juntamente com seus argumentos adicionas na linha de comando.
+Para executar o programa, deverá ser rodado o comando abaixo dentro da pasta raiz do projeto juntamente com argumentos adicionas na linha de comando.
 
-Após a execução dos programas, são salvos arquivos `<nome>.log` na pasta do programa contendo as informações fornecidas durante a execução.
+Após a execução dos programas, são salvos arquivos `<nome>.log` na pasta `/logs` do programa contendo as informações fornecidas durante a execução.
 
 ```
 python main.py <qt_pessoas> <qt_dependentes> <qt_caixas>
 
-<qt_pessoas> = Número de pessoas
+<qt_pessoas> = Número de pessoas (sem dependentes inclusos)
 <qt_dependentes> = Número de dependentes
-<qt_caixas> = 
-
-
-<qt_passag> = Número total de passageiros
-<qt_ass> = Capacidade do carro
-<qt_passei> = Número de passeios que o carro fará
+<qt_caixas> = Números de caixas do banco
 ```
 
 
