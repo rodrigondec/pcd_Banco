@@ -3,8 +3,7 @@ from Logger import Log
 from time import sleep
 from Caixa import Caixa
 from Conta import Conta
-from Exceptions import TransfException
-from Operacao import Operacao, OperacaoU, OperacaoB, Deposito, Saldo, Saque, Transferencia
+from Operacao import Operacao, OperacaoU, OperacaoB
 
 
 class Banco(object):
@@ -63,14 +62,13 @@ class Banco(object):
             operacao.before(conta_o=Conta.get_conta(operacao.pessoa.get_id()),
                             conta_d=Conta.get_conta(operacao.pessoa_d.get_id()))
 
-        if not isinstance(operacao, Saldo):
-            self._adicionar_fila(operacao.pessoa)
+        self._adicionar_fila(operacao.pessoa)
 
         return operacao.execute()
 
     def _adicionar_fila(self, pessoa):
-        type(pessoa).log.info("entrou na fila do banco")
-        Caixa.fila.put(pessoa)
         if not pessoa.vez.is_set():
+            type(pessoa).log.info("entrou na fila do banco")
+            Caixa.fila.put(pessoa)
             type(pessoa).log.info("espera sua vez")
             pessoa.vez.wait()
