@@ -11,7 +11,9 @@
     * [Pessoa](doc/problema/entidades/pessoa.md)
     * [Dependente](doc/problema/entidades/dependente.md)
 * [Implementação](doc/implementacao.md)
+  * [Exceptions](doc/implementacao/exceptions.md)
   * [Caixa](doc/implementacao/caixa.md)
   * [Conta](doc/implementacao/conta.md)
   * [Operação](doc/implementacao/operacao.md)
+  * [Banco](doc/implementacao/banco.md)
 
