@@ -1,6 +1,12 @@
 # Descrição
 
-bla
+A classe Pessoa possui a persistência do dicionário \(hash-map\) de pessoas. Cada pessoa possui sua própria thread que irá controlar a vida da pessoa. A pessoa realiza uma ação randômica entre trabalhar, gastar e transferir; e após isso dorme por 5 segundos.
+
+A ação de trabalhar envolve dormir por 5 segundos e depois depositar o dinheiro que a pessoa possui. 
+
+A ação gastar envolve escolher uma quantia aleatória entre 10 e 300, e se a pessoa não tiver dinheiro vivo com ela \(cada pessoa possui sua própria carteira de dinheiro além do banco\) tentar sacar o que falta para a quantia desejada.
+
+A sincronização da espera da utilização do caixa pela pessoa foi feita através do [Event object](https://docs.python.org/3/library/threading.html#event-objects) do Python 3. Quando a pessoa terminar a utilização, ela altera a flag do objeto, e a execução do caixa prossegue.
 
 # Diagrama
 
