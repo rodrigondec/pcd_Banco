@@ -37,21 +37,6 @@ class Conta(object):
         return
 
     @staticmethod
-    def realizar_saque(id_pessoa, valor):
-        assert isinstance(id_pessoa, str)
-        Conta.contas[id_pessoa].sacar(valor)
-
-    @staticmethod
-    def realizar_deposito(id_pessoa, valor):
-        assert isinstance(id_pessoa, str)
-        Conta.contas[id_pessoa].depositar(valor)
-
-    @staticmethod
-    def ver_saldo(id_pessoa):
-        assert isinstance(id_pessoa, str)
-        return Conta.contas[id_pessoa].saldo()
-
-    @staticmethod
     def get_conta(id_pessoa):
         assert isinstance(id_pessoa, str)
         return Conta.contas[id_pessoa]
