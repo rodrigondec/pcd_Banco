@@ -1,8 +1,12 @@
 # Descrição
 
-A classe Banco possui a persistência da lista de caixas e a fila compartilhada. Cada caixa possui sua própria thread que irá ficar chamando o próximo da fila \(que é thread-safe\).
+A classe Banco interage diretamente com as classes Caixa e Conta, utilizando seus métodos de acesso para os objetos já instânciados. O Banco utiliza o pattern Singleton, garantindo que só haverá uma instância do objeto durante a execução do código.
 
-A sincronização da espera da utilização do caixa pela pessoa foi feita através do [Event object](https://docs.python.org/3/library/threading.html#event-objects) do Python 3. Quando a pessoa terminar a utilização, ela altera a flag do objeto, e a execução do caixa prossegue.
+O Banco possui uma thread que de tempos em tempos irá investir o dinheiro dos clientes, e durante o investimento bloqueará a execução de operações. 
+
+A sincronização da espera do investimento foi feita através do [Event object](https://docs.python.org/3/library/threading.html#event-objects) do Python 3. Quando o investimento terminar, todas as requisições de operações feitas pelas pessoas irão prosseguir com a execução.
+
+Toda operação recebida pelo banco é adicionada na fila dos caixas, na qual esperarão sua vez de serem processadas de acordo com a classe Caixa.
 
 # Diagrama
 
