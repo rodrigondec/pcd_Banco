@@ -70,6 +70,7 @@ class Pessoa(object):
             if self.dinheiro < valor:
                 Pessoa.log.info("nao tem dinheiro vivo o suficiente. falta {}".format(valor-self.dinheiro))
                 self.sacar(valor-self.dinheiro)
+            self.dinheiro = 0
             Pessoa.log.info("gastou {}".format(valor))
         except SaldoException as e:
             Pessoa.log.info("{}. Ela esta triste :c".format(e.message))
