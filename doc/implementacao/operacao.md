@@ -2,9 +2,7 @@
 
 As operações bancárias foram implementadas seguindo o pattern command
 
-# Diagrama
-
-![](/doc/img/operacao.png)
+Diagrama![](/doc/img/operacao.png)
 
 # Código Template
 
@@ -57,8 +55,6 @@ class OperacaoBinary(Operacao):
         self.conta_d = conta_d
         self.call_before = True
 ```
-
-
 
 
 
