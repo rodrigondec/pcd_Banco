@@ -12,7 +12,6 @@ class Banco(object):
     log = Log("banco")
     qt_caixas = None
 
-
     def __new__(type):
         if not '_instance' in type.__dict__:
             type._instance = object.__new__(type)

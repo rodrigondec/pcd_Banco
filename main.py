@@ -3,8 +3,8 @@ from Pessoa import Pessoa, Dependente
 from time import sleep
 
 qt_pessoas = 2
-qt_dependentes = 3
-Banco.qt_caixas = 2
+qt_dependentes = 0
+Banco.qt_caixas = 1
 
 Banco()
 
