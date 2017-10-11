@@ -10,13 +10,13 @@ class Operacao(object):
         self.call_before = False
 
     def execute(self):
-        raise TypeError('abstract method cannot be called')
+        raise NotImplementedError
 
     def after(self):
-        raise TypeError('abstract method cannot be called')
+        raise NotImplementedError
 
     def roll_back(self):
-        raise TypeError('abstract method cannot be called')
+        raise NotImplementedError
 
     def get_id_pessoa(self):
         return self.pessoa.get_id()
