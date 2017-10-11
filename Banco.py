@@ -24,8 +24,8 @@ class Banco(object):
         self.disponivel = Event()
         self.disponivel.set()
 
-        self.t = Thread(target=self.investimento, name='Banco_Investimento')
-        self.t.start()
+        self.thread = Thread(target=self.investimento, name='Banco_Investimento')
+        self.thread.start()
 
     def __str__(self):
         return "Banco"
