@@ -14,3 +14,21 @@ class SaldoException(Exception):
 
     def __str__(self):
         return repr(self.message)
+
+
+class DepositoException(Exception):
+    """Exception de saldo"""
+    def __init__(self, message="Erro no deposito!"):
+        self.message = message
+
+    def __str__(self):
+        return repr(self.message)
+
+
+class SaqueException(Exception):
+    """Exception de saldo"""
+    def __init__(self, message="Erro no saque!"):
+        self.message = message
+
+    def __str__(self):
+        return repr(self.message)
