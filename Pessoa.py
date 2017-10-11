@@ -16,7 +16,7 @@ class Pessoa(object):
     @staticmethod
     def start():
         for pessoa in Pessoa.lista_pessoas:
-            pessoa.t.start()
+            pessoa.thread.start()
 
     def __init__(self):
         Pessoa.count_pessoas += 1
@@ -33,7 +33,7 @@ class Pessoa(object):
         self.uso_caixa = Event()
         self.uso_caixa.clear()
 
-        self.t = Thread(target=self.viver, name=self)
+        self.thread = Thread(target=self.viver, name=self)
 
     def __str__(self):
         return "Pessoa "+self.id_pessoa
