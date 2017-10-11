@@ -3,7 +3,7 @@ from Logger import Log
 from time import sleep
 from Caixa import Caixa
 from Conta import Conta
-from Operacao import Operacao, OperacaoU, OperacaoB
+from Operacao import Operacao, OperacaoUnary, OperacaoBinary
 
 
 class Banco(object):
@@ -60,9 +60,9 @@ class Banco(object):
             self.disponivel.wait()
 
         assert isinstance(operacao, Operacao)
-        if isinstance(operacao, OperacaoU):
+        if isinstance(operacao, OperacaoUnary):
             operacao.before(Conta.get_conta(operacao.pessoa.get_id()))
-        elif isinstance(operacao, OperacaoB):
+        elif isinstance(operacao, OperacaoBinary):
             operacao.before(conta_o=Conta.get_conta(operacao.pessoa.get_id()),
                             conta_d=Conta.get_conta(operacao.pessoa_d.get_id()))
 

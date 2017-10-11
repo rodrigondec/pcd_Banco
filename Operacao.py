@@ -22,10 +22,10 @@ class Operacao(object):
         return self.pessoa.get_id()
 
 
-class OperacaoU(Operacao):
+class OperacaoUnary(Operacao):
     """Operaçções envolvendo apenas uma pessoa"""
     def __init__(self, pessoa):
-        if self.__class__ is OperacaoU:
+        if self.__class__ is OperacaoUnary:
             raise TypeError('abstract class cannot be instantiated')
         Operacao.__init__(self, pessoa)
         self.conta = None
@@ -35,10 +35,10 @@ class OperacaoU(Operacao):
         self.call_before = True
 
 
-class OperacaoB(Operacao):
+class OperacaoBinary(Operacao):
     """Operações envolvendo duas pessoas"""
     def __init__(self, pessoa_o, pessoa_d):
-        if self.__class__ is OperacaoB:
+        if self.__class__ is OperacaoBinary:
             raise TypeError('abstract class cannot be instantiated')
         Operacao.__init__(self, pessoa_o)
         self.pessoa_d = pessoa_d
@@ -50,10 +50,10 @@ class OperacaoB(Operacao):
         self.call_before = True
 
 
-class Saldo(OperacaoU):
+class Saldo(OperacaoUnary):
     """"""
     def __init__(self, pessoa):
-        OperacaoU.__init__(self, pessoa)
+        OperacaoUnary.__init__(self, pessoa)
         self.conta = None
 
     def execute(self):
@@ -73,10 +73,10 @@ class Saldo(OperacaoU):
         pass
 
 
-class Deposito(OperacaoU):
+class Deposito(OperacaoUnary):
     """"""
     def __init__(self, pessoa, valor):
-        OperacaoU.__init__(self, pessoa)
+        OperacaoUnary.__init__(self, pessoa)
         self.valor = valor
         self.conta = None
         self.valor_original = None
@@ -107,10 +107,10 @@ class Deposito(OperacaoU):
         self.conta.dinheiro = self.valor_original
 
 
-class Saque(OperacaoU):
+class Saque(OperacaoUnary):
     """"""
     def __init__(self, pessoa, valor):
-        OperacaoU.__init__(self, pessoa)
+        OperacaoUnary.__init__(self, pessoa)
         self.valor = valor
         self.conta = None
         self.valor_original = None
@@ -141,10 +141,10 @@ class Saque(OperacaoU):
         self.conta.dinheiro = self.valor_original
 
 
-class Transferencia(OperacaoB):
+class Transferencia(OperacaoBinary):
     """"""
     def __init__(self, pessoa_o, valor, pessoa_d):
-        OperacaoB.__init__(self, pessoa_o, pessoa_d)
+        OperacaoBinary.__init__(self, pessoa_o, pessoa_d)
         self.valor = valor
         self.conta_o = None
         self.conta_d = None
