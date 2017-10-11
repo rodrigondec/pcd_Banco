@@ -1,14 +1,14 @@
 # Descrição
 
-O depósito é realizado em cima de uma conta. Ao iniciar a execução, a operação irá adquirir o lock da conta e o liberará ao terminar de fazer o processamento e verificação de consistência.
+O saque é realizado em cima de uma conta. Ao iniciar a execução, a operação irá adquirir o lock da conta e o liberará ao terminar de fazer o processamento e verificação de consistência.
 
-A operação depósito utiliza a operação saldo para realizar a vefiricação de consistência.
+A operação saque utiliza a operação saldo para realizar a vefiricação de consistência.
 
 # Código
 
 ```
-class Deposito(OperacaoUnary):
-    """Operação de depósito"""
+class Saque(OperacaoUnary):
+    """Operação de saque"""
     def __init__(self, pessoa, valor):
         OperacaoUnary.__init__(self, pessoa)
         self.valor = valor
@@ -25,16 +25,16 @@ class Deposito(OperacaoUnary):
             op_saldo.before(self.conta)
             self.valor_original = op_saldo.execute()
 
-            self.conta.depositar(self.valor)
+            self.conta.sacar(self.valor)
 
             self.after()
         finally:
             self.conta.lock.release()
 
     def after(self):
-        if self.conta.saldo() != (self.valor_original+self.valor):
+        if self.conta.saldo() != (self.valor_original-self.valor):
             self.roll_back()
-            raise DepositoException()
+            raise SaqueException()
         return True
 
     def roll_back(self):
