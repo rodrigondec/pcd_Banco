@@ -27,3 +27,5 @@ for _ in range(0, qt_pessoas):
 
 for _ in range(0, qt_dependentes):
     Dependente()
+
+Pessoa.start()
