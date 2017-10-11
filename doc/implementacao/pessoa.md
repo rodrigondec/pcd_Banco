@@ -2,11 +2,18 @@
 
 A classe Pessoa possui a persistência do dicionário \(hash-map\) de pessoas. Cada pessoa possui sua própria thread que irá controlar a vida da pessoa. A pessoa realiza uma ação randômica entre trabalhar, gastar e transferir; e após isso dorme por 5 segundos.
 
-A ação de trabalhar envolve dormir por 5 segundos e depois depositar o dinheiro que a pessoa possui. 
+A ação de trabalhar envolve dormir por 5 segundos e depois depositar o dinheiro que a pessoa possui.
 
 A ação gastar envolve escolher uma quantia aleatória entre 10 e 300, e se a pessoa não tiver dinheiro vivo com ela \(cada pessoa possui sua própria carteira de dinheiro além do banco\) tentar sacar o que falta para a quantia desejada.
 
-A sincronização da espera da utilização do caixa pela pessoa foi feita através do [Event object](https://docs.python.org/3/library/threading.html#event-objects) do Python 3. Quando a pessoa terminar a utilização, ela altera a flag do objeto, e a execução do caixa prossegue.
+A ação transferir envolve escolher envolve escolher uma quantia aleatória entre 50 e 200 e uma pessoa \(que não seja ela mesma e nem um dependente\), e de fato transferir a quantia para a pessoa em questão.
+
+Cada operação \(saque, saldo, depósito ou transferência\) irá invocar o método de realizar operação do Banco e irá travar ou não a thread da pessoa de acordo com as sincronizações das classes Banco, Operação, Caixa e Conta.
+
+Como toda ação irá se tornar uma Operação, que por sua vez irá ser adicionada à fila de caixas, a pessoa possui dois atributos de sincronização que são do tipo [Event object](https://docs.python.org/3/library/threading.html#event-objects) do Python 3. Sendo eles:
+
+* _**Pessoa.vez**_ representando a vez de utilização do caixa referente à fila da classe Caixa;
+* E _**Pessoa.uso\_caixa**_ representando que a pessoa terminou de utilizar o caixa, sinalizando para o caixa que o estava esperando continuar com sua execução.
 
 # Diagrama
 
@@ -78,6 +85,7 @@ class Pessoa(object):
             if self.dinheiro < valor:
                 Pessoa.log.info("nao tem dinheiro vivo o suficiente. falta {}".format(valor-self.dinheiro))
                 self.sacar(valor-self.dinheiro)
+            self.dinheiro = 0
             Pessoa.log.info("gastou {}".format(valor))
         except SaldoException as e:
             Pessoa.log.info("{}. Ela esta triste :c".format(e.message))
