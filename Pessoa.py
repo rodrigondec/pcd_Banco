@@ -4,6 +4,7 @@ from random import choice, randrange
 from Banco import Banco
 from Logger import Log
 from Exceptions import SaldoException, TransfException
+from Operacao import Deposito, Saldo, Saque, Transferencia
 
 
 class Pessoa(object):
@@ -77,15 +78,15 @@ class Pessoa(object):
     def depositar(self):
         Pessoa.log.info("vai depositar {}".format(self.dinheiro))
         quantia = self.dinheiro
-        Banco().depositar(self, self.dinheiro)
+        Banco().realizar_operacao(operacao=Deposito(self, quantia))
         self.dinheiro = 0
         Pessoa.log.info("depositou {}. Ela tem agora {} no banco."
-                        " Ela esta satisfeita".format(quantia, Banco().saldo(self)))
+                        " Ela esta satisfeita".format(quantia, Banco().realizar_operacao(operacao=Saldo(self))))
         self.triste = False
 
     def sacar(self, valor):
         Pessoa.log.info("vai sacar "+str(valor))
-        Banco().sacar(self, valor)
+        Banco().realizar_operacao(Saque(self, valor))
         Pessoa.log.info("sacou {}. Ela esta feliz :D".format(valor))
 
     def _get_lista_pessoa(self):
@@ -97,7 +98,7 @@ class Pessoa(object):
 
         assert isinstance(pessoa_d, Pessoa)
         try:
-            Banco().transferir(self, pessoa_d, valor)
+            Banco().realizar_operacao(Transferencia(self, valor, pessoa_d))
             Pessoa.log.info("transferiu {} para Pessoa {}".format(valor, pessoa_d))
         except (SaldoException, TransfException) as e:
             Pessoa.log.info("{}. Ela esta triste :c".format(e.message))
