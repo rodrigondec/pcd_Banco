@@ -1,6 +1,6 @@
 # Descrição
 
-Implementação das exceções lançadas e tratadas pelo sistema do banco, representando a falha na realização de alguma operação.
+A implementação das exceções lançadas e tratadas pelo sistema do banco, representando a falha na realização de alguma operação.
 
 # Diagrama
 
@@ -43,7 +43,6 @@ class SaqueException(Exception):
 
     def __str__(self):
         return repr(self.message)
-
 ```
 
 

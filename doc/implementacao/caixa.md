@@ -1,6 +1,6 @@
 # Descrição
 
-A classe caixa possui a persistência da lista de caixas e a fila compartilhada. Cada caixa possui sua própria thread que irá ficar chamando o próximo da fila \(que é thread-safe\). 
+A classe Caixa possui a persistência da lista de caixas e a fila compartilhada. Cada caixa possui sua própria thread que irá ficar chamando o próximo da fila \(que é thread-safe\).
 
 A sincronização da espera da utilização do caixa pela pessoa foi feita através do [Event object](https://docs.python.org/3/library/threading.html#event-objects) do Python 3. Quando a pessoa terminar a utilização, ela altera a flag do objeto, e a execução do caixa prossegue.
 
