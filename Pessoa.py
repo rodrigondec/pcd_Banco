@@ -88,8 +88,11 @@ class Pessoa(object):
         Banco().sacar(self, valor)
         Pessoa.log.info("sacou {}. Ela esta feliz :D".format(valor))
 
+    def _get_lista_pessoa(self):
+        return [pessoa for pessoa in Pessoa.lista_pessoas if pessoa != self and not isinstance(pessoa, Dependente)]
+
     def transferir(self, valor):
-        pessoa_d = choice([pessoa for pessoa in Pessoa.lista_pessoas if pessoa != self and not isinstance(pessoa, Dependente)])
+        pessoa_d = choice(self._get_lista_pessoa())
         Pessoa.log.info("vai transferir {} para Pessoa {}".format(valor, pessoa_d))
 
         assert isinstance(pessoa_d, Pessoa)
@@ -114,6 +117,9 @@ class Dependente(Pessoa):
 
     def __str__(self):
         return "Pessoa {}, dependente de {}".format(self.id_pessoa, self.responsavel.id_pessoa)
+
+    def _get_lista_pessoa(self):
+        return [pessoa for pessoa in Pessoa.lista_pessoas if not isinstance(pessoa, Dependente) and pessoa != self.responsavel]
 
     def get_id(self):
         return self.responsavel.id_pessoa
