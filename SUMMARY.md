@@ -15,5 +15,10 @@
   * [Caixa](doc/implementacao/caixa.md)
   * [Conta](doc/implementacao/conta.md)
   * [Operação](doc/implementacao/operacao.md)
+    * [Deposito](doc/implementacao/operacao/deposito.md)
+    * Saque
+    * Saldo
+    * Transferência
   * [Banco](doc/implementacao/banco.md)
+  * [Pessoa](doc/implementacao/pessoa.md)
 
