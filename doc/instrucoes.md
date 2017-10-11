@@ -9,7 +9,12 @@ Para executar as abordagens dos problemas, o usuário deverá executar os progra
 Após a execução dos programas, são salvos arquivos `<nome>.log` na pasta do programa contendo as informações fornecidas durante a execução.
 
 ```
-python main.py <qt_passag> <qt_ass> <qt_passei>
+python main.py <qt_pessoas> <qt_dependentes> <qt_caixas>
+
+<qt_pessoas> = Número de pessoas
+<qt_dependentes> = Número de dependentes
+<qt_caixas> = 
+
 
 <qt_passag> = Número total de passageiros
 <qt_ass> = Capacidade do carro
