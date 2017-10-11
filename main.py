@@ -27,6 +27,3 @@ for _ in range(0, qt_pessoas):
 
 for _ in range(0, qt_dependentes):
     Dependente()
-    # sleep(3)
-
-Pessoa.start()
