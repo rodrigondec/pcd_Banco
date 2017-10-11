@@ -1,6 +1,8 @@
 # Descrição
 
-O saldo é realizado em cima de uma conta. 
+O saldo é realizado em cima de uma conta.
+
+> OBS.: O lock da conta será adquirido apenas uma vez ao realizar o execute\(\) da operação. Já que a operação de saldo não é composta e sim simples \(atômica\)
 
 # Código
 

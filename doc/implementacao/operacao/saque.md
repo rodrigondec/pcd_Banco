@@ -4,6 +4,8 @@ O saque é realizado em cima de uma conta. Ao iniciar a execução, a operação
 
 A operação saque utiliza a operação saldo para realizar a vefiricação de consistência.
 
+> OBS.: O lock da conta será adquirido duas vezes ao realizar o execute\(\) da operação. Desta forma garantindo que a operação \(saldo+saque\) ocorra atomicamente
+
 # Código
 
 ```

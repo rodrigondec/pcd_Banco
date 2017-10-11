@@ -4,6 +4,8 @@ A transferência é realizado em cima de duas contas. Ao iniciar a execução, a
 
 A operação transferência utiliza as operações de saque e depósito para realizar o processamento.
 
+> OBS.: O lock da conta será adquirido três vezes ao realizar o execute\(\) da operação. Desta forma garantindo que a operação { saque\(saldo+saque\) + depósito\(saldo+depósito\) } ocorra atomicamente
+
 # Código
 
 ```
