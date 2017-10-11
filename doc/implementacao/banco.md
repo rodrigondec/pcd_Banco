@@ -2,7 +2,7 @@
 
 A classe Banco interage diretamente com as classes Caixa e Conta, utilizando seus métodos de acesso para os objetos já instânciados. O Banco utiliza o pattern Singleton, garantindo que só haverá uma instância do objeto durante a execução do código.
 
-O Banco possui uma thread que de tempos em tempos irá investir o dinheiro dos clientes, e durante o investimento bloqueará a execução de operações. 
+O Banco possui uma thread que de tempos em tempos irá investir o dinheiro dos clientes, e durante o investimento bloqueará a execução de operações.
 
 A sincronização da espera do investimento foi feita através do [Event object](https://docs.python.org/3/library/threading.html#event-objects) do Python 3. Quando o investimento terminar, todas as requisições de operações feitas pelas pessoas irão prosseguir com a execução.
 

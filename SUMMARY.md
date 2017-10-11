@@ -21,4 +21,5 @@
     * [Transferência](doc/implementacao/operacao/transferencia.md)
   * [Banco](doc/implementacao/banco.md)
   * [Pessoa](doc/implementacao/pessoa.md)
+    * [Dependente](doc/implementacao/pessoa/dependente.md)
 
