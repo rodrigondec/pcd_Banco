@@ -22,7 +22,7 @@ class Banco(object):
             Caixa()
 
         self.disponivel = Event()
-        self.disponivel.clear()
+        self.disponivel.set()
 
         self.t = Thread(target=self.investimento, name='Banco_Investimento')
         self.t.start()
@@ -55,6 +55,10 @@ class Banco(object):
         Conta(pessoa.get_id())
 
     def realizar_operacao(self, operacao):
+        if not self.disponivel.is_set():
+            type(operacao.pessoa).log.info("espera banco terminar de investir")
+            self.disponivel.wait()
+
         assert isinstance(operacao, Operacao)
         if isinstance(operacao, OperacaoU):
             operacao.before(Conta.get_conta(operacao.pessoa.get_id()))
