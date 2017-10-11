@@ -8,7 +8,7 @@ A operação depósito utiliza a operação saldo para realizar a vefiricação 
 
 # Código
 
-```
+```py
 class Deposito(OperacaoUnary):
     """Operação de depósito"""
     def __init__(self, pessoa, valor):

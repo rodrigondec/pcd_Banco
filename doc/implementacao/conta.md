@@ -10,7 +10,7 @@ Todo método irá adquirir o lock e liberá-lo após o processamento do método,
 
 # Código
 
-```
+```py
 class Conta(object):
     """Conta"""
 

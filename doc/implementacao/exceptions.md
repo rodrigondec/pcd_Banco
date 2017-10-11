@@ -8,7 +8,7 @@ A implementação das exceções lançadas e tratadas pelo sistema do banco, rep
 
 # Código
 
-```
+```py
 class TransfException(Exception):
     """Exception de transferência"""
     def __init__(self, message="Erro na transferencia"):

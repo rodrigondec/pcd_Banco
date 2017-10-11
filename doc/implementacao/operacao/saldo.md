@@ -6,7 +6,7 @@ O saldo é realizado em cima de uma conta.
 
 # Código
 
-```
+```py
 class Saldo(OperacaoUnary):
     """Operação de saldo"""
     def __init__(self, pessoa):

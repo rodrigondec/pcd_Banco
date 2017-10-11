@@ -6,7 +6,7 @@ As operações bancárias foram implementadas seguindo o pattern command
 
 # Código Template
 
-```
+```py
 class Operacao(object):
     """Operação bancária"""
     def __init__(self, pessoa):

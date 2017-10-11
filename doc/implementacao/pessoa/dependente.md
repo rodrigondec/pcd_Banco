@@ -4,7 +4,7 @@ O Dependente é uma generalização da classe Pessoa. Alterando apenas o retorno
 
 # Código
 
-```
+```py
 class Dependente(Pessoa):
     """Pessoa dependente"""
 

@@ -10,7 +10,7 @@ A sincronização da espera da utilização do caixa pela pessoa foi feita atrav
 
 # Código
 
-```
+```py
 class Caixa(object):
     """Caixa bancário"""
 

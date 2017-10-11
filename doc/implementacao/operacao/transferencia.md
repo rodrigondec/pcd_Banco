@@ -8,7 +8,7 @@ A operação transferência utiliza as operações de saque e depósito para rea
 
 # Código
 
-```
+```py
 class Transferencia(OperacaoBinary):
     """Operação de transferência"""
     def __init__(self, pessoa_o, valor, pessoa_d):

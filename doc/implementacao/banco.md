@@ -14,7 +14,7 @@ Toda operação recebida pelo banco é adicionada na fila dos caixas, na qual es
 
 # Código
 
-```
+```py
 class Banco(object):
     """banco"""
     log = Log("banco")
