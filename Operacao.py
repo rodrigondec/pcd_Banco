@@ -23,7 +23,7 @@ class Operacao(object):
 
 
 class OperacaoU(Operacao):
-    """"""
+    """Operaçções envolvendo apenas uma pessoa"""
     def __init__(self, pessoa):
         if self.__class__ is OperacaoU:
             raise TypeError('abstract class cannot be instantiated')
@@ -36,7 +36,7 @@ class OperacaoU(Operacao):
 
 
 class OperacaoB(Operacao):
-    """"""
+    """Operações envolvendo duas pessoas"""
     def __init__(self, pessoa_o, pessoa_d):
         if self.__class__ is OperacaoB:
             raise TypeError('abstract class cannot be instantiated')
