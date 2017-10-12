@@ -1,8 +1,10 @@
-# Descrição
+# Dependente
+
+## Descrição
 
 O Dependente é uma generalização da classe Pessoa. Alterando apenas o retorno do id vinculado à conta \(que será o do responsável\) e o método para pegar a listagem de pessoas disponíveis para transferência.
 
-# Código
+## Código
 
 ```py
 class Dependente(Pessoa):

@@ -1,4 +1,6 @@
-# Descrição
+# Pessoa
+
+## Descrição
 
 A classe Pessoa possui a persistência do dicionário \(hash-map\) de pessoas. Cada pessoa possui sua própria thread que irá controlar a vida da pessoa. A pessoa realiza uma ação randômica entre trabalhar, gastar e transferir; e após isso dorme por 5 segundos.
 
@@ -15,11 +17,11 @@ Como toda ação irá se tornar uma Operação, que por sua vez irá ser adicion
 * _**Pessoa.vez**_ representando a vez de utilização do caixa referente à fila da classe Caixa;
 * E _**Pessoa.uso\_caixa**_ representando que a pessoa terminou de utilizar o caixa, sinalizando para o caixa que o estava esperando continuar com sua execução.
 
-# Diagrama
+## Diagrama
 
 ![](/doc/img/pessoa.png)
 
-# Código
+## Código
 
 ```py
 class Pessoa(object):

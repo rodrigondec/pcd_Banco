@@ -1,4 +1,6 @@
-# Descrição
+# Banco
+
+## Descrição
 
 A classe Banco interage diretamente com as classes Caixa e Conta, utilizando seus métodos de acesso para os objetos já instânciados. O Banco utiliza o pattern Singleton, garantindo que só haverá uma instância do objeto durante a execução do código.
 
@@ -8,11 +10,11 @@ A sincronização da espera do investimento foi feita através do [Event object]
 
 Toda operação recebida pelo banco é adicionada na fila dos caixas, na qual esperarão sua vez de serem processadas de acordo com a classe Caixa.
 
-# Diagrama
+## Diagrama
 
 ![](/doc/img/banco.png)
 
-# Código
+## Código
 
 ```py
 class Banco(object):
