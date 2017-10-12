@@ -1,12 +1,14 @@
-# Descrição
+# Dependente
+
+## Descrição
 
 Representa um tipo de pessoa física do mundo.
 
-# Características
+## Características
 
 * Cada dependente tem um responsável, ao invés de ter sua própria conta bancária.
 
-# Problemas
+## Problemas
 
 * NA.
 

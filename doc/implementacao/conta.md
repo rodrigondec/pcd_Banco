@@ -1,14 +1,16 @@
-# Descrição
+# Conta
+
+## Descrição
 
 A classe Conta possui a persistência do dicionário \(hash-map\) de contas. Cada conta está associada à um `id_pessoa` do objeto [Pessoa](/doc/implementacao/pessoa.md) e possui um [Reentrant Lock object](https://docs.python.org/3/library/threading.html#threading.RLock) do Python 3.
 
 Todo método irá adquirir o lock e liberá-lo após o processamento do método, fazendo assim a exclusão mútua sobre cada conta individualmente.
 
-# Diagrama
+## Diagrama
 
 ![](/doc/img/conta.png)
 
-# Código
+## Código
 
 ```py
 class Conta(object):

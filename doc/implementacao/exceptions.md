@@ -1,12 +1,14 @@
-# Descrição
+# Exceptions
+
+## Descrição
 
 A implementação das exceções lançadas e tratadas pelo sistema do banco, representando a falha na realização de alguma operação.
 
-# Diagrama
+## Diagrama
 
 ![](/doc/img/exceptions.png)
 
-# Código
+## Código
 
 ```py
 class TransfException(Exception):

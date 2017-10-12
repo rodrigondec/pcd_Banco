@@ -1,8 +1,10 @@
-# Requerimentos
+# Instruções
+
+## Requerimentos
 
 * [Python 3.6.1](https://www.python.org/ftp/python/3.6.1/python-3.6.1.exe)
 
-# Executando
+## Executando
 
 Para executar o programa, deverá ser rodado o comando abaixo dentro da pasta raiz do projeto juntamente com argumentos adicionas na linha de comando.
 
