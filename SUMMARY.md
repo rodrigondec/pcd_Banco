@@ -22,4 +22,6 @@
   * [Banco](doc/implementacao/banco.md)
   * [Pessoa](doc/implementacao/pessoa.md)
     * [Dependente](doc/implementacao/pessoa/dependente.md)
+* [Corretude](doc/corretude.md)
+* [Dificuldades](doc/dificuldades.md)
 
