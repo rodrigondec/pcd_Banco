@@ -1,12 +1,10 @@
-import os
-import sys
 from pickle import dumps, loads
-from models.Banco import Banco
-# from configs import socket
 import socket
 from configs.socket import HOST_N_PORT
 from threading import Thread, _start_new_thread
-from time import sleep
+
+from models.Banco import Banco
+from models.Exceptions import SaldoException
 
 
 class Server(Thread):
@@ -34,15 +32,25 @@ class Server(Thread):
         return data
 
     def handler(self, client, addr):
-        print("enviando ack...")
-        self.send(client, True)
+        ack = True
+        resp = {}
+
+        # print("enviando ack...")
+        self.send(client, ack)
 
         operacao = self.receive(client)
-        print("recebido: {}".format(operacao))
-        sleep(3)
+        # print("recebido: {}".format(operacao))
 
-        print("enviando done...")
-        self.send(client, True)
+        try:
+            resp['status'] = True
+            resp['msg'] = Banco().realizar_operacao(operacao)
+        except SaldoException as e:
+            resp['status'] = False
+            resp['msg'] = e.message
+
+        # print("enviando resposta...")
+        # print(resp)
+        self.send(client, resp)
 
         client.close()
 
@@ -50,13 +58,7 @@ class Server(Thread):
         self.init()
 
         while True:
-            # establish a connection
-            print("Waiting connections...")
+            # print("Waiting connections...")
             client, addr = self.socket.accept()
 
             _start_new_thread(self.handler, (client, addr))
-
-
-if __name__ == "__main__":
-    # execute only if run as a script
-    Server().start()
