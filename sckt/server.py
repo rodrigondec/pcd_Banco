@@ -1,4 +1,3 @@
-#!/usr/bin/python3           # This is server.py file
 import os
 import sys
 from pickle import dumps, loads
