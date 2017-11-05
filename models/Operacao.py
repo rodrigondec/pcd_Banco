@@ -3,10 +3,10 @@ from Exceptions import DepositoException, SaqueException, TransfException
 
 class Operacao(object):
     """Operação bancária"""
-    def __init__(self, pessoa):
+    def __init__(self, id_pessoa):
         if self.__class__ is Operacao:
             raise TypeError('abstract class cannot be instantiated')
-        self.pessoa = pessoa
+        self.id_pessoa = id_pessoa
         self.call_before = False
 
     def execute(self):
@@ -18,16 +18,16 @@ class Operacao(object):
     def roll_back(self):
         raise NotImplementedError
 
-    def get_id_pessoa(self):
-        return self.pessoa.get_id()
+    def get_id_id_pessoa(self):
+        return self.id_pessoa
 
 
 class OperacaoUnary(Operacao):
-    """Operaçções envolvendo apenas uma pessoa"""
-    def __init__(self, pessoa):
+    """Operaçções envolvendo apenas uma id_pessoa"""
+    def __init__(self, id_pessoa):
         if self.__class__ is OperacaoUnary:
             raise TypeError('abstract class cannot be instantiated')
-        Operacao.__init__(self, pessoa)
+        Operacao.__init__(self, id_pessoa)
         self.conta = None
 
     def before(self, conta):
@@ -36,13 +36,12 @@ class OperacaoUnary(Operacao):
 
 
 class OperacaoBinary(Operacao):
-    """Operações envolvendo duas pessoas"""
-    def __init__(self, pessoa_o, pessoa_d):
+    """Operações envolvendo duas id_pessoas"""
+    def __init__(self, id_pessoa_o, id_pessoa_d):
         if self.__class__ is OperacaoBinary:
             raise TypeError('abstract class cannot be instantiated')
-        Operacao.__init__(self, pessoa_o)
-        self.pessoa_d = pessoa_d
-        self.conta = None
+        Operacao.__init__(self, id_pessoa_o)
+        self.id_pessoa_d = id_pessoa_d
 
     def before(self, conta_o, conta_d):
         self.conta_o = conta_o
@@ -52,8 +51,8 @@ class OperacaoBinary(Operacao):
 
 class Saldo(OperacaoUnary):
     """Operação de saldo"""
-    def __init__(self, pessoa):
-        OperacaoUnary.__init__(self, pessoa)
+    def __init__(self, id_pessoa):
+        OperacaoUnary.__init__(self, id_pessoa)
         self.conta = None
 
     def execute(self):
@@ -75,8 +74,8 @@ class Saldo(OperacaoUnary):
 
 class Deposito(OperacaoUnary):
     """Operação de depósito"""
-    def __init__(self, pessoa, valor):
-        OperacaoUnary.__init__(self, pessoa)
+    def __init__(self, id_pessoa, valor):
+        OperacaoUnary.__init__(self, id_pessoa)
         self.valor = valor
         self.conta = None
         self.valor_original = None
@@ -87,7 +86,7 @@ class Deposito(OperacaoUnary):
         try:
             self.conta.lock.acquire()
 
-            op_saldo = Saldo(self.pessoa)
+            op_saldo = Saldo(self.id_pessoa)
             op_saldo.before(self.conta)
             self.valor_original = op_saldo.execute()
 
@@ -109,8 +108,8 @@ class Deposito(OperacaoUnary):
 
 class Saque(OperacaoUnary):
     """Operação de saque"""
-    def __init__(self, pessoa, valor):
-        OperacaoUnary.__init__(self, pessoa)
+    def __init__(self, id_pessoa, valor):
+        OperacaoUnary.__init__(self, id_pessoa)
         self.valor = valor
         self.conta = None
         self.valor_original = None
@@ -121,7 +120,7 @@ class Saque(OperacaoUnary):
         try:
             self.conta.lock.acquire()
 
-            op_saldo = Saldo(self.pessoa)
+            op_saldo = Saldo(self.id_pessoa)
             op_saldo.before(self.conta)
             self.valor_original = op_saldo.execute()
 
@@ -143,8 +142,8 @@ class Saque(OperacaoUnary):
 
 class Transferencia(OperacaoBinary):
     """Operação de transferência"""
-    def __init__(self, pessoa_o, valor, pessoa_d):
-        OperacaoBinary.__init__(self, pessoa_o, pessoa_d)
+    def __init__(self, id_pessoa_o, valor, id_pessoa_d):
+        OperacaoBinary.__init__(self, id_pessoa_o, id_pessoa_d)
         self.valor = valor
         self.conta_o = None
         self.conta_d = None
@@ -158,11 +157,11 @@ class Transferencia(OperacaoBinary):
             self.conta_o.lock.acquire()
             self.conta_d.lock.acquire()
 
-            self.op_saque_o = Saque(self.pessoa, self.valor)
+            self.op_saque_o = Saque(self.id_pessoa, self.valor)
             self.op_saque_o.before(self.conta_o)
             self.op_saque_o.execute()
 
-            self.op_deposito_d = Deposito(self.pessoa_d, self.valor)
+            self.op_deposito_d = Deposito(self.id_pessoa_d, self.valor)
             self.op_deposito_d.before(self.conta_d)
             self.op_deposito_d.execute()
 

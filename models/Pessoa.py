@@ -79,15 +79,15 @@ class Pessoa(object):
     def depositar(self):
         Pessoa.log.info("vai depositar {}".format(self.dinheiro))
         quantia = self.dinheiro
-        Banco().realizar_operacao(operacao=Deposito(self, quantia))
+        Banco().realizar_operacao(operacao=Deposito(self.get_id(), quantia))
         self.dinheiro = 0
         Pessoa.log.info("depositou {}. Ela tem agora {} no banco."
-                        " Ela esta satisfeita".format(quantia, Banco().realizar_operacao(operacao=Saldo(self))))
+                        " Ela esta satisfeita".format(quantia, Banco().realizar_operacao(operacao=Saldo(self.get_id()))))
         self.triste = False
 
     def sacar(self, valor):
         Pessoa.log.info("vai sacar "+str(valor))
-        Banco().realizar_operacao(Saque(self, valor))
+        Banco().realizar_operacao(Saque(self.get_id(), valor))
         Pessoa.log.info("sacou {}. Ela esta feliz :D".format(valor))
 
     def _get_lista_pessoa(self):
@@ -99,7 +99,7 @@ class Pessoa(object):
 
         assert isinstance(pessoa_d, Pessoa)
         try:
-            Banco().realizar_operacao(Transferencia(self, valor, pessoa_d))
+            Banco().realizar_operacao(Transferencia(self.get_id(), valor, pessoa_d.get_id()))
             Pessoa.log.info("transferiu {} para Pessoa {}".format(valor, pessoa_d))
         except (SaldoException, TransfException) as e:
             Pessoa.log.info("{}. Ela esta triste :c".format(e.message))
