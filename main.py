@@ -1,7 +1,9 @@
-from Banco import Banco
-from Pessoa import Pessoa, Dependente
-import sys, os
+import os
+import sys
 
+from models.Banco import Banco
+
+from models.Pessoa import Pessoa, Dependente
 
 # VARIÁVEIS DE CONFIGURAÇÃO
 if len(sys.argv) != 4:
