@@ -2,11 +2,10 @@ from random import choice, randrange
 from threading import Thread, Event
 from time import sleep
 
-from models.Banco import Banco
-from models.Exceptions import SaldoException, TransfException
+from sckt.Transaction import Transaction
 
 from models.Logger import Log
-from models.Operacao import Deposito, Saldo, Saque, Transferencia
+from models.Operacao import Deposito, Saque, Transferencia
 
 
 class Pessoa(object):
@@ -21,10 +20,11 @@ class Pessoa(object):
             pessoa.thread.start()
 
     def __init__(self):
+        if self.__class__ is Pessoa:
+            raise TypeError('abstract class cannot be instantiated')
         Pessoa.count_pessoas += 1
         self.id_pessoa = str(Pessoa.count_pessoas)
         Pessoa.lista_pessoas.append(self)
-        Banco().criar_conta(self)
 
         self.dinheiro = 0
         self.triste = False
@@ -68,44 +68,48 @@ class Pessoa(object):
 
     def gastar(self, valor):
         Pessoa.log.info("vai gastar " + str(valor))
-        try:
-            if self.dinheiro < valor:
-                Pessoa.log.info("nao tem dinheiro vivo o suficiente. falta {}".format(valor-self.dinheiro))
-                self.sacar(valor-self.dinheiro)
-            self.dinheiro = 0
-            Pessoa.log.info("gastou {}".format(valor))
-        except SaldoException as e:
-            Pessoa.log.info("{}. Ela esta triste :c".format(e.message))
-            self.triste = True
+        if self.dinheiro < valor:
+            Pessoa.log.info("nao tem dinheiro vivo o suficiente. falta {}".format(valor-self.dinheiro))
+            self.sacar(valor-self.dinheiro)
+        self.dinheiro = 0
+        Pessoa.log.info("gastou {}".format(valor))
+
+    def realizar_operacao(self, operacao):
+        raise NotImplementedError
 
     def depositar(self):
         Pessoa.log.info("vai depositar {}".format(self.dinheiro))
         quantia = self.dinheiro
-        Banco().realizar_operacao(operacao=Deposito(self.get_id(), quantia))
+        resp = self.realizar_operacao(Deposito(self.get_id(), quantia))
         self.dinheiro = 0
         Pessoa.log.info("depositou {}. Ela tem agora {} no banco."
-                        " Ela esta satisfeita".format(quantia, Banco().realizar_operacao(operacao=Saldo(self.get_id()))))
+                        " Ela esta satisfeita".format(quantia, resp['msg']))
         self.triste = False
 
     def sacar(self, valor):
         Pessoa.log.info("vai sacar "+str(valor))
-        Banco().realizar_operacao(Saque(self.get_id(), valor))
-        Pessoa.log.info("sacou {}. Ela esta feliz :D".format(valor))
-
-    def _get_lista_pessoa(self):
-        return [pessoa for pessoa in Pessoa.lista_pessoas if pessoa != self and not isinstance(pessoa, Dependente)]
+        resp = self.realizar_operacao(Saque(self.get_id(), valor))
+        if resp['status']:
+            Pessoa.log.info("sacou {}. Ela esta feliz :D".format(valor))
+        else:
+            Pessoa.log.info("{}. Ela esta triste :c".format(resp['msg']))
+            self.triste = True
 
     def transferir(self, valor):
         pessoa_d = choice(self._get_lista_pessoa())
         Pessoa.log.info("vai transferir {} para Pessoa {}".format(valor, pessoa_d))
 
         assert isinstance(pessoa_d, Pessoa)
-        try:
-            Banco().realizar_operacao(Transferencia(self.get_id(), valor, pessoa_d.get_id()))
+        resp = self.realizar_operacao(Transferencia(self.get_id(), valor, pessoa_d.get_id()))
+        if resp['status']:
             Pessoa.log.info("transferiu {} para Pessoa {}".format(valor, pessoa_d))
-        except (SaldoException, TransfException) as e:
-            Pessoa.log.info("{}. Ela esta triste :c".format(e.message))
+        else:
+            Pessoa.log.info("{}. Ela esta triste :c".format(resp['msg']))
             self.triste = True
+
+
+    def _get_lista_pessoa(self):
+        return [pessoa for pessoa in Pessoa.lista_pessoas if pessoa != self and not isinstance(pessoa, Dependente)]
 
     def get_id(self):
         return self.id_pessoa
@@ -117,7 +121,6 @@ class Dependente(Pessoa):
     def __init__(self):
         self.responsavel = choice([pessoa for pessoa in Pessoa.lista_pessoas if not isinstance(pessoa, Dependente)])
         Pessoa.__init__(self)
-        print(self)
 
     def __str__(self):
         return "Pessoa {}, dependente de {}".format(self.id_pessoa, self.responsavel.id_pessoa)
