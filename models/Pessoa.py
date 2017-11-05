@@ -1,10 +1,12 @@
+from random import choice, randrange
 from threading import Thread, Event
 from time import sleep
-from random import choice, randrange
-from Banco import Banco
-from Logger import Log
-from Exceptions import SaldoException, TransfException
-from Operacao import Deposito, Saldo, Saque, Transferencia
+
+from models.Banco import Banco
+from models.Exceptions import SaldoException, TransfException
+
+from models.Logger import Log
+from models.Operacao import Deposito, Saldo, Saque, Transferencia
 
 
 class Pessoa(object):

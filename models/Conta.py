@@ -1,5 +1,6 @@
 from threading import RLock
-from Exceptions import SaldoException
+
+from models.Exceptions import SaldoException
 
 
 class Conta(object):

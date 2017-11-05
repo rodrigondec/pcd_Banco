@@ -1,15 +1,14 @@
 from threading import Thread, Event
-from Logger import Log
 from time import sleep
-from Caixa import Caixa
-from Conta import Conta
-from Operacao import Operacao, OperacaoUnary, OperacaoBinary
+
+from models.Operacao import Operacao, OperacaoUnary, OperacaoBinary
+from models.Conta import Conta
+from models.Logger import Log
 
 
 class Banco(object):
     """banco"""
     log = Log("banco")
-    qt_caixas = None
 
     def __new__(type):
         if not '_instance' in type.__dict__:
@@ -18,9 +17,6 @@ class Banco(object):
         return type._instance
 
     def init(self):
-        for _ in range(0, Banco.qt_caixas):
-            Caixa()
-
         self.disponivel = Event()
         self.disponivel.set()
 
@@ -66,13 +62,4 @@ class Banco(object):
             operacao.before(conta_o=Conta.get_conta(operacao.pessoa.get_id()),
                             conta_d=Conta.get_conta(operacao.pessoa_d.get_id()))
 
-        self._adicionar_fila(operacao.pessoa)
-
         return operacao.execute()
-
-    def _adicionar_fila(self, pessoa):
-        if not pessoa.vez.is_set():
-            type(pessoa).log.info("entrou na fila do banco")
-            Caixa.fila.put(pessoa)
-            type(pessoa).log.info("espera sua vez")
-            pessoa.vez.wait()
