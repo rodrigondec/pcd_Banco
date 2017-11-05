@@ -47,19 +47,23 @@ class Banco(object):
 
             sleep(15)
 
-    def criar_conta(self, pessoa):
-        Conta(pessoa.get_id())
+    def criar_conta(self, id_pessoa):
+        Conta(id_pessoa)
 
     def realizar_operacao(self, operacao):
+        if operacao.get_id_pessoa() not in Conta.contas:
+           self.criar_conta(operacao.get_id_pessoa())
         if not self.disponivel.is_set():
-            type(operacao.pessoa).log.info("espera banco terminar de investir")
+            # type(operacao.pessoa).log.info("espera banco terminar de investir")
             self.disponivel.wait()
 
         assert isinstance(operacao, Operacao)
         if isinstance(operacao, OperacaoUnary):
-            operacao.before(Conta.get_conta(operacao.pessoa.get_id()))
+            operacao.before(Conta.get_conta(operacao.get_id_pessoa()))
         elif isinstance(operacao, OperacaoBinary):
-            operacao.before(conta_o=Conta.get_conta(operacao.pessoa.get_id()),
-                            conta_d=Conta.get_conta(operacao.pessoa_d.get_id()))
+            if operacao.get_id_pessoa_d() not in Conta.contas:
+                self.criar_conta(operacao.get_id_pessoa_d())
+            operacao.before(conta_o=Conta.get_conta(operacao.get_id_pessoa()),
+                            conta_d=Conta.get_conta(operacao.get_id_pessoa_d()))
 
         return operacao.execute()
