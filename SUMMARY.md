@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 # Summary
 
 * [Introduction](README.md)
@@ -24,3 +25,30 @@
 * [Corretude](doc/corretude.md)
 * [Dificuldades](doc/dificuldades.md)
 
+=======
+# Summary
+
+* [Introduction](README.md)
+* [Instruções](doc/instrucoes.md)
+* [Problema](doc/problema.md)
+  * [Entidades](doc/problema/entidades.md)
+    * [Caixa](doc/problema/entidades/caixa.md)
+    * [Conta](doc/problema/entidades/conta.md)
+    * [Banco](doc/problema/entidades/banco.md)
+    * [Operação Bancária](doc/problema/entidades/operacao-bancaria.md)
+    * [Pessoa](doc/problema/entidades/pessoa.md)
+    * [Dependente](doc/problema/entidades/dependente.md)
+* [Implementação](doc/implementacao.md)
+  * [Exceptions](doc/implementacao/exceptions.md)
+  * [Caixa](doc/implementacao/caixa.md)
+  * [Conta](doc/implementacao/conta.md)
+  * [Operação](doc/implementacao/operacao.md)
+    * [Saldo](doc/implementacao/operacao/saldo.md)
+    * [Deposito](doc/implementacao/operacao/deposito.md)
+    * [Saque](doc/implementacao/operacao/saque.md)
+    * [Transferência](doc/implementacao/operacao/transferencia.md)
+  * [Banco](doc/implementacao/banco.md)
+  * [Pessoa](doc/implementacao/pessoa.md)
+    * [Dependente](doc/implementacao/pessoa/dependente.md)
+
+>>>>>>> Stashed changes
