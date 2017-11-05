@@ -18,8 +18,11 @@ class Operacao(object):
     def roll_back(self):
         raise NotImplementedError
 
-    def get_id_id_pessoa(self):
+    def get_id_pessoa(self):
         return self.id_pessoa
+
+    def __str__(self):
+        return "{} pessoa {}".format(type(self), self.id_pessoa)
 
 
 class OperacaoUnary(Operacao):
@@ -47,6 +50,9 @@ class OperacaoBinary(Operacao):
         self.conta_o = conta_o
         self.conta_d = conta_d
         self.call_before = True
+
+    def get_id_pessoa_d(self):
+        return self.id_pessoa_d
 
 
 class Saldo(OperacaoUnary):
@@ -83,6 +89,9 @@ class Deposito(OperacaoUnary):
     def execute(self):
         if not self.call_before:
             return False
+
+        saldo = None
+
         try:
             self.conta.lock.acquire()
 
@@ -92,15 +101,18 @@ class Deposito(OperacaoUnary):
 
             self.conta.depositar(self.valor)
 
-            self.after()
+            saldo = self.after()
         finally:
             self.conta.lock.release()
 
+        return saldo
+
     def after(self):
-        if self.conta.saldo() != (self.valor_original+self.valor):
+        saldo = self.conta.saldo()
+        if saldo != (self.valor_original+self.valor):
             self.roll_back()
             raise DepositoException()
-        return True
+        return saldo
 
     def roll_back(self):
         self.conta.dinheiro = self.valor_original
