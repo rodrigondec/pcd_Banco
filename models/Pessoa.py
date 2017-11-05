@@ -130,3 +130,20 @@ class Dependente(Pessoa):
 
     def get_id(self):
         return self.responsavel.id_pessoa
+
+
+class PessoaSocket(Pessoa):
+    def __init__(self):
+        Pessoa.__init__(self)
+
+    def realizar_operacao(self, operacao):
+        return Transaction(operacao).execute()
+
+
+class DependenteSocket(Dependente):
+    def __init__(self):
+        Dependente.__init__(self)
+
+    def realizar_operacao(self, operacao):
+        return Transaction(operacao).execute()
+
