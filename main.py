@@ -1,12 +1,12 @@
 import os
 import sys
 
-from sckt.server import Server
-from models.Pessoa import Pessoa, PessoaSocket, DependenteSocket
+from sckt.SocketServer import SocketServer
+from dominio.Pessoa import Pessoa, PessoaSocket, DependenteSocket
 
 
 if __name__ == "__main__":
-    Server().start()
+    SocketServer().start()
 
     for _ in range(0, 2):
         PessoaSocket()
@@ -14,9 +14,9 @@ if __name__ == "__main__":
 
     Pessoa.start()
 #
-# from models.Banco import Banco
+# from dominio.Banco import Banco
 #
-# from models.Pessoa import Pessoa, Dependente
+# from dominio.Pessoa import Pessoa, Dependente
 #
 # # VARIÁVEIS DE CONFIGURAÇÃO
 # if len(sys.argv) != 4:

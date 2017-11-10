@@ -2,10 +2,10 @@ from random import choice, randrange
 from threading import Thread, Event
 from time import sleep
 
-from sckt.Transaction import Transaction
+from sckt.SocketBroker import SocketBroker
 
-from models.Logger import Log
-from models.Operacao import Deposito, Saque, Transferencia
+from dominio.Logger import Log
+from dominio.Operacao import Deposito, Saque, Transferencia
 
 
 class Pessoa(object):
@@ -137,7 +137,7 @@ class PessoaSocket(Pessoa):
         Pessoa.__init__(self)
 
     def realizar_operacao(self, operacao):
-        return Transaction(operacao).execute()
+        return SocketBroker(operacao).execute()
 
 
 class DependenteSocket(Dependente):
@@ -145,5 +145,5 @@ class DependenteSocket(Dependente):
         Dependente.__init__(self)
 
     def realizar_operacao(self, operacao):
-        return Transaction(operacao).execute()
+        return SocketBroker(operacao).execute()
 

@@ -3,11 +3,11 @@ import socket
 from configs.socket import HOST_N_PORT
 from threading import Thread, _start_new_thread
 
-from models.Banco import Banco
-from models.Exceptions import SaldoException
+from dominio.Banco import Banco
+from dominio.Exceptions import SaldoException
 
 
-class Server(Thread):
+class SocketServer(Thread):
     def init(self):
         # create a socket object
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

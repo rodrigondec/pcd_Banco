@@ -1,9 +1,9 @@
 from threading import Thread, Event
 from time import sleep
 
-from models.Operacao import Operacao, OperacaoUnary, OperacaoBinary
-from models.Conta import Conta
-from models.Logger import Log
+from dominio.Operacao import Operacao, OperacaoUnary, OperacaoBinary
+from dominio.Conta import Conta
+from dominio.Logger import Log
 
 
 class Banco(object):
