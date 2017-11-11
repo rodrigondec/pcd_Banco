@@ -1,14 +1,20 @@
-import os
+from time import sleep
+from subprocess import run
 import sys
-
 from sckt.SocketServer import SocketServer
+from threading import _start_new_thread
+from rmi.RMIServer import RMIServer, StartNameServer
 from dominio.Pessoa import Pessoa, PessoaSocket, DependenteSocket
 
 
 if __name__ == "__main__":
-    SocketServer().start()
+    _start_new_thread(StartNameServer, ("l_env/bin/activate",))
+    sleep(3)
+    # SocketServer().start()
+    RMIServer().start()
 
     for _ in range(0, 2):
+
         PessoaSocket()
         DependenteSocket()
 
