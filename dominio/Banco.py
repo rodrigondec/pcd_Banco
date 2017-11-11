@@ -1,6 +1,6 @@
 from threading import Thread, Event
 from time import sleep
-
+import Pyro4
 from dominio.Operacao import Operacao, OperacaoUnary, OperacaoBinary
 from dominio.Conta import Conta
 from dominio.Logger import Log
@@ -50,6 +50,7 @@ class Banco(object):
     def criar_conta(self, id_pessoa):
         Conta(id_pessoa)
 
+    @Pyro4.expose
     def realizar_operacao(self, operacao):
         if operacao.get_id_pessoa() not in Conta.contas:
            self.criar_conta(operacao.get_id_pessoa())
