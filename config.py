@@ -1,7 +1,9 @@
 from socket import gethostname
 
-
 HOST = gethostname()
-PORT = 9999
 
-HOST_N_PORT = (HOST, PORT)
+SOCKET_PORT = 9999
+
+RMI_PORT = 9998
+
+REST_POST = 5000
