@@ -1,12 +1,12 @@
 import socket
 from pickle import dumps, loads
-from configs.socket import HOST_N_PORT
+from config import HOST, SOCKET_PORT
 
 
 class SocketBroker():
     def __init__(self, operacao):
         self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self._socket.connect(HOST_N_PORT)
+        self._socket.connect((HOST, SOCKET_PORT))
         self._operacao = operacao
 
     def _send(self, data):

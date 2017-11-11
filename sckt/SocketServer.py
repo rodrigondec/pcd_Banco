@@ -1,6 +1,6 @@
 from pickle import dumps, loads
 import socket
-from configs.socket import HOST_N_PORT
+from config import HOST, SOCKET_PORT
 from threading import Thread, _start_new_thread
 
 from dominio.Banco import Banco
@@ -14,11 +14,11 @@ class SocketServer(Thread):
         self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
         # bind to the port
-        self.socket.bind(HOST_N_PORT)
+        self.socket.bind((HOST, SOCKET_PORT))
 
         # queue up to 5 requests
         self.socket.listen(5)
-
+        print("Socket ready. Listening: {}:{}".format(HOST, SOCKET_PORT))
         Banco()
 
     def send(self, client, data):
