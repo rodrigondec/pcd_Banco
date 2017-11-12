@@ -14,11 +14,11 @@ def StartNameServer(env):
 
 class RMIServer():
     def __init__(self):
-        self.daemon = Daemon()
-        self.ns = locateNS(HOST, RMI_PORT)
-        self.uri = self.daemon.register(Banco)
+        self.daemon = Pyro4.Daemon(host=HOST, port=RMI_PORT)
+        self.ns = Pyro4.locateNS(HOST, RMI_NS_PORT)
+        self.uri = self.daemon.register(RMIServerBroker())
         self.ns.register("banco", self.uri)
 
     def start(self):
-        print("RMI ready. Listening: {}:{}".format(self.uri, 1))      # print the uri so we can use it in the client later
-        self.daemon.requestLoop()
+        print("Banco RMI ready. Listening: {}".format(self.uri))      # print the uri so we can use it in the client later
+        _start_new_thread(self.daemon.requestLoop, ())
