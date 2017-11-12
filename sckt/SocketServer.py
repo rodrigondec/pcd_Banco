@@ -19,7 +19,6 @@ class SocketServer(Thread):
         # queue up to 5 requests
         self.socket.listen(5)
         print("Socket ready. Listening: {}:{}".format(HOST, SOCKET_PORT))
-        Banco()
 
     def send(self, client, data):
         data = dumps(data)
