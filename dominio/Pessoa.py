@@ -3,6 +3,7 @@ from threading import Thread, Event
 from time import sleep
 
 from sckt.SocketBroker import SocketBroker
+from rmi.RMIClientBroker import RMIClientBroker
 
 from dominio.Logger import Log
 from dominio.Operacao import Deposito, Saque, Transferencia
@@ -107,7 +108,6 @@ class Pessoa(object):
             Pessoa.log.info("{}. Ela esta triste :c".format(resp['msg']))
             self.triste = True
 
-
     def _get_lista_pessoa(self):
         return [pessoa for pessoa in Pessoa.lista_pessoas if pessoa != self and not isinstance(pessoa, Dependente)]
 
@@ -147,3 +147,18 @@ class DependenteSocket(Dependente):
     def realizar_operacao(self, operacao):
         return SocketBroker(operacao).execute()
 
+
+class PessoaRMI(Pessoa):
+    def __init__(self):
+        Pessoa.__init__(self)
+
+    def realizar_operacao(self, operacao):
+        return RMIClientBroker(operacao).execute()
+
+
+class DependenteRMI(Dependente):
+    def __init__(self):
+        Dependente.__init__(self)
+
+    def realizar_operacao(self, operacao):
+        return RMIClientBroker(operacao).execute()
