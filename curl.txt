@@ -1,0 +1,1 @@
+curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"classe": "Deposito", "objeto": {"id_pessoa": "2", "call_before": false, "conta": null, "valor": 20, "valor_original": null}}' 'http://localhost:5000/core/realizar_operacao/'
