@@ -4,6 +4,7 @@ from time import sleep
 
 from sckt.SocketBroker import SocketBroker
 from rmi.RMIClientBroker import RMIClientBroker
+from rest.RestBroker import RestBroker
 
 from dominio.Logger import Log
 from dominio.Operacao import Deposito, Saque, Transferencia
@@ -39,7 +40,7 @@ class Pessoa(object):
         self.thread = Thread(target=self.viver, name=self)
 
     def __str__(self):
-        return "Pessoa "+self.id_pessoa
+        return "{} {}".format(type(self).__name__ ,self.id_pessoa)
 
     def viver(self):
         while True:
@@ -123,7 +124,7 @@ class Dependente(Pessoa):
         Pessoa.__init__(self)
 
     def __str__(self):
-        return "Pessoa {}, dependente de {}".format(self.id_pessoa, self.responsavel.id_pessoa)
+        return "{} {}, dependente de {}".format(type(self).__name__, self.id_pessoa, self.responsavel.id_pessoa)
 
     def _get_lista_pessoa(self):
         return [pessoa for pessoa in Pessoa.lista_pessoas if not isinstance(pessoa, Dependente) and pessoa != self.responsavel]
@@ -162,3 +163,20 @@ class DependenteRMI(Dependente):
 
     def realizar_operacao(self, operacao):
         return RMIClientBroker(operacao).execute()
+
+
+class PessoaRest(Pessoa):
+    def __init__(self):
+        Pessoa.__init__(self)
+
+    def realizar_operacao(self, operacao):
+        return RestBroker(operacao).execute()
+
+
+class DependenteRest(Dependente):
+    def __init__(self):
+        Dependente.__init__(self)
+
+    def realizar_operacao(self, operacao):
+        return RestBroker(operacao).execute()
+
