@@ -1,11 +1,15 @@
-from Pyro4 import locateNS, Daemon
-from dominio import Banco
-from config import HOST, RMI_PORT
+import Pyro4
 import os
+from threading import _start_new_thread
+
+from rmi.RMIServerBroker import RMIServerBroker
+
+from config import HOST, RMI_PORT, RMI_NS_PORT
+
 
 
 def StartNameServer(env):
-    os.system("source {} & python -m Pyro4.naming -n {} -p {}".format(env, HOST, RMI_PORT))
+    _start_new_thread(os.system, ("source {} & python -m Pyro4.naming -n {} -p {}".format(env, HOST, RMI_NS_PORT),))
 
 
 class RMIServer():
