@@ -24,6 +24,9 @@ class Operacao(object):
     def __str__(self):
         return "{} pessoa {}".format(type(self), self.id_pessoa)
 
+    def toJson(self):
+        return {'classe': type(self).__name__, 'objeto': self.__dict__}
+
 
 class OperacaoUnary(Operacao):
     """Operaçções envolvendo apenas uma id_pessoa"""
