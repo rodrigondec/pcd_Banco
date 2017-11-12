@@ -2,23 +2,16 @@ from time import sleep
 
 from sckt.SocketServer import SocketServer
 from rmi.RMIServer import RMIServer, StartNameServer
+from rest.RestServer import StartRestServer
 
-from dominio.Pessoa import Pessoa, PessoaSocket, DependenteSocket, PessoaRMI, DependenteRMI
+from dominio.Banco import Banco
 
 
 if __name__ == "__main__":
+    Banco()
     StartNameServer("l_env/bin/activate")
     sleep(3)
 
     SocketServer().start()
     RMIServer().start()
-
-    for _ in range(0, 1):
-        PessoaRMI()
-        PessoaSocket()
-
-        DependenteRMI()
-        DependenteSocket()
-
-
-    Pessoa.start()
+    StartRestServer()
