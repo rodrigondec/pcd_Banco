@@ -26,7 +26,7 @@ class Banco(object):
         return "Banco"
 
     def investimento(self):
-        sleep(10)
+        sleep(20)
         while True:
             try:
                 self.disponivel.clear()
@@ -53,7 +53,7 @@ class Banco(object):
         if operacao.get_id_pessoa() not in Conta.contas:
            self.criar_conta(operacao.get_id_pessoa())
         if not self.disponivel.is_set():
-            # type(operacao.pessoa).log.info("espera banco terminar de investir")
+            Banco.log.info("Pessoa {} espera banco terminar de investir".format(operacao.id_pessoa))
             self.disponivel.wait()
 
         assert isinstance(operacao, Operacao)
