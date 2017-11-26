@@ -2,6 +2,8 @@
 
 ## Requerimentos
 
+Precisa instalar manualmente apena o python. Os outros serão gerenciados pelo pip.
+
 * [Python 3.6.3](https://www.python.org/downloads/release/python-363/)
 * [Pyro4](https://pythonhosted.org/Pyro4/)
 * [Flask](http://flask.pocoo.org/)
