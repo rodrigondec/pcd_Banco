@@ -28,5 +28,5 @@
     * [Socket](doc/implementacao/servidores/socket.md)
     * [RMI](doc/implementacao/servidores/rmi.md)
     * [Rest](doc/implementacao/servidores/rest.md)
-* [Execução](execucao.md)
+* [Execução](doc/execucao.md)
 
