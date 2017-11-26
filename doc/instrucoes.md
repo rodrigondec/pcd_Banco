@@ -9,6 +9,7 @@
 
 ### Preparando o ambiente virtual
 
+* Crie o arquivo `/logs/banco.log` 
 * Crie o ambiente virtual via console usando `python -m venv env` 
 * Ative o ambiente virtual \(e você irá precisar refazer este único passo sempre que executar usar o sistema\):
 
