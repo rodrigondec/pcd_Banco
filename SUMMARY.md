@@ -1,31 +1,3 @@
-<<<<<<< Updated upstream
-# Summary
-
-* [Introduction](README.md)
-* [Instruções](doc/instrucoes.md)
-* [Problema](doc/problema.md)
-  * [Caixa](doc/problema/caixa.md)
-  * [Conta](doc/problema/conta.md)
-  * [Operação Bancária](doc/problema/operacao-bancaria.md)
-  * [Banco](doc/problema/banco.md)
-  * [Pessoa](doc/problema/pessoa.md)
-  * [Dependente](doc/problema/dependente.md)
-* [Implementação](doc/implementacao.md)
-  * [Exceptions](doc/implementacao/exceptions.md)
-  * [Caixa](doc/implementacao/caixa.md)
-  * [Conta](doc/implementacao/conta.md)
-  * [Operação](doc/implementacao/operacao.md)
-    * [Saldo](doc/implementacao/operacao/saldo.md)
-    * [Deposito](doc/implementacao/operacao/deposito.md)
-    * [Saque](doc/implementacao/operacao/saque.md)
-    * [Transferência](doc/implementacao/operacao/transferencia.md)
-  * [Banco](doc/implementacao/banco.md)
-  * [Pessoa](doc/implementacao/pessoa.md)
-    * [Dependente](doc/implementacao/pessoa/dependente.md)
-* [Corretude](doc/corretude.md)
-* [Dificuldades](doc/dificuldades.md)
-
-=======
 # Summary
 
 * [Introduction](README.md)
@@ -50,5 +22,3 @@
   * [Banco](doc/implementacao/banco.md)
   * [Pessoa](doc/implementacao/pessoa.md)
     * [Dependente](doc/implementacao/pessoa/dependente.md)
-
->>>>>>> Stashed changes
