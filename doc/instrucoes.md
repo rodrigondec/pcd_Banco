@@ -8,11 +8,12 @@ Precisa instalar manualmente apena o python. Os outros serão gerenciados pelo p
 * [Pyro4](https://pythonhosted.org/Pyro4/)
 * [Flask](http://flask.pocoo.org/)
 * [Flask-Restplus](https://flask-restplus.readthedocs.io/en/stable/)
+* [Requests](http://docs.python-requests.org/en/master/)
 
 ### Preparando o ambiente virtual
 
 * Crie o arquivo `/logs/banco.log` 
-* Crie o ambiente virtual via console usando `python -m venv env` 
+* Crie o ambiente virtual via console usando `python -m venv l_env` 
 * Ative o ambiente virtual \(e você irá precisar refazer este único passo sempre que executar usar o sistema\):
   * No Windows, execute no prompt \(cmd\): `env\Scripts\activate.bat`
   * No Unix ou MacOS, execute no terminal \(bash\): `source env/bin/activate`

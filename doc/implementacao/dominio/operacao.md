@@ -11,10 +11,10 @@ As operações bancárias foram implementadas seguindo o pattern command.
 ```py
 class Operacao(object):
     """Operação bancária"""
-    def __init__(self, pessoa):
+    def __init__(self, id_pessoa):
         if self.__class__ is Operacao:
             raise TypeError('abstract class cannot be instantiated')
-        self.pessoa = pessoa
+        self.id_pessoa = id_pessoa
         self.call_before = False
 
     def execute(self):
@@ -27,7 +27,13 @@ class Operacao(object):
         raise NotImplementedError
 
     def get_id_pessoa(self):
-        return self.pessoa.get_id()
+        return self.id_pessoa
+
+    def __str__(self):
+        return "{} pessoa {}".format(type(self), self.id_pessoa)
+
+    def toJson(self):
+        return {'classe': type(self).__name__, 'objeto': self.__dict__}
 
 
 class OperacaoUnary(Operacao):
@@ -57,3 +63,6 @@ class OperacaoBinary(Operacao):
         self.conta_d = conta_d
         self.call_before = True
 ```
+
+
+

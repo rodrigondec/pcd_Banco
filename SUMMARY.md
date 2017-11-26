@@ -25,4 +25,8 @@
         * [PessoaRMI](doc/implementacao/dominio/pessoa/clientes/pessoarmi.md)
         * [PessoaRest](doc/implementacao/dominio/pessoa/clientes/pessoarest.md)
   * [Servidores](doc/implementacao/servidores.md)
+    * [Socket](doc/implementacao/servidores/socket.md)
+    * [RMI](doc/implementacao/servidores/rmi.md)
+    * [Rest](doc/implementacao/servidores/rest.md)
+* [Execução](execucao.md)
 
