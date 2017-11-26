@@ -2,7 +2,7 @@
 
 ## Descrição
 
-bla
+Nas implementação dos clientes Rest, são utilizados um RestClientBroker. Que recebe a operação,  e realiza o protocolo de comunicação com o Servidor Rest.
 
 ## Código
 
@@ -12,7 +12,7 @@ class PessoaRest(Pessoa):
         Pessoa.__init__(self)
 
     def realizar_operacao(self, operacao):
-        return RestBroker(operacao).execute()
+        return RestClientBroker(operacao).execute()
 
 
 class DependenteRest(Dependente):
@@ -20,7 +20,7 @@ class DependenteRest(Dependente):
         Dependente.__init__(self)
 
     def realizar_operacao(self, operacao):
-        return RestBroker(operacao).execute()
+        return RestClientBroker(operacao).execute()
 ```
 
 
