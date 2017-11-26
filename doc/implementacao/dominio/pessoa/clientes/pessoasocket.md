@@ -2,7 +2,7 @@
 
 ## Descrição
 
-Na implementação dos clientes socket, são utilizados
+Nas implementação dos clientes socket, são utilizados um SocketClientBroker. Que recebe a operação,  e realiza o protocolo de comunicação com o SocketServer.
 
 ## Código
 
@@ -12,7 +12,7 @@ class PessoaSocket(Pessoa):
         Pessoa.__init__(self)
 
     def realizar_operacao(self, operacao):
-        return SocketBroker(operacao).execute()
+        return SocketClientBroker(operacao).execute()
 
 
 class DependenteSocket(Dependente):
@@ -20,7 +20,7 @@ class DependenteSocket(Dependente):
         Dependente.__init__(self)
 
     def realizar_operacao(self, operacao):
-        return SocketBroker(operacao).execute()
+        return SocketClientBroker(operacao).execute()
 ```
 
 

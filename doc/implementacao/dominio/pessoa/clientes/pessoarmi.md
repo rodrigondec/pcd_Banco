@@ -2,7 +2,7 @@
 
 ## Descrição
 
-bla
+Nas implementação dos clientes RMI, são utilizados um RMIClientBroker. Que recebe a operação,  e realiza o protocolo de comunicação com o RMIServer.
 
 ## Código
 
