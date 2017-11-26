@@ -5,8 +5,8 @@ for _ in range(0, 1):
     PessoaSocket() # Pessoa 2
     PessoaRest() # Pessoa 3
 
-    # DependenteRMI() # Pessoa 4
-    # DependenteSocket() # Pessoa 5
-    # DependenteRest() # Pessoa 6
+    DependenteRMI() # Pessoa 4
+    DependenteSocket() # Pessoa 5
+    DependenteRest() # Pessoa 6
 
 Pessoa.start()
