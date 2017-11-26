@@ -13,10 +13,9 @@ class Dependente(Pessoa):
     def __init__(self):
         self.responsavel = choice([pessoa for pessoa in Pessoa.lista_pessoas if not isinstance(pessoa, Dependente)])
         Pessoa.__init__(self)
-        print(self)
 
     def __str__(self):
-        return "Pessoa {}, dependente de {}".format(self.id_pessoa, self.responsavel.id_pessoa)
+        return "{} {}, dependente de {}".format(type(self).__name__, self.id_pessoa, self.responsavel.id_pessoa)
 
     def _get_lista_pessoa(self):
         return [pessoa for pessoa in Pessoa.lista_pessoas if not isinstance(pessoa, Dependente) and pessoa != self.responsavel]
@@ -24,3 +23,6 @@ class Dependente(Pessoa):
     def get_id(self):
         return self.responsavel.id_pessoa
 ```
+
+
+

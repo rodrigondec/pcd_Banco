@@ -40,12 +40,6 @@ class Pessoa(object):
         self.dinheiro = 0
         self.triste = False
 
-        self.vez = Event()
-        self.vez.clear()
-
-        self.uso_caixa = Event()
-        self.uso_caixa.clear()
-
         self.thread = Thread(target=self.viver, name=self)
 
     def __str__(self):
@@ -53,8 +47,6 @@ class Pessoa(object):
 
     def viver(self):
         while True:
-            self.uso_caixa.clear()
-            self.vez.clear()
             self.fazer_acao()
             sleep(5)
 
@@ -68,7 +60,6 @@ class Pessoa(object):
             self.trabalhar(randrange(10, 70, 10))
         elif acao == 3:
             self.transferir(randrange(50, 200, 50))
-        self.uso_caixa.set()
 
     def trabalhar(self, valor):
         Pessoa.log.info("vai trabalhar")

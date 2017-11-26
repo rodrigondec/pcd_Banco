@@ -20,5 +20,9 @@
     * [Banco](doc/implementacao/dominio/banco.md)
     * [Pessoa](doc/implementacao/dominio/pessoa.md)
       * [Dependente](doc/implementacao/dominio/pessoa/dependente.md)
+      * [Clientes](doc/implementacao/dominio/pessoa/clientes.md)
+        * [PessoaSocket](doc/implementacao/dominio/pessoa/clientes/pessoasocket.md)
+        * [PessoaRMI](doc/implementacao/dominio/pessoa/clientes/pessoarmi.md)
+        * [PessoaRest](doc/implementacao/dominio/pessoa/clientes/pessoarest.md)
   * [Servidores](doc/implementacao/servidores.md)
 
