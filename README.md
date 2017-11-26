@@ -1,6 +1,6 @@
-# Projeto 2ª unidade de Programação Concorrente e Distribuída
+# Projeto de Programação Concorrente e Distribuída
 
-Nesse projeto é implementada uma solução para o problema de concorrência em um banco.
+Nesse projeto é implementada uma solução para o problema de concorrência e distribuição em um banco.
 
 As implementações encontram-se no [github](https://github.com/rodrigondec/pcd_Banco).
 
