@@ -3,7 +3,7 @@ from pickle import dumps, loads
 from config import HOST, SOCKET_PORT
 
 
-class SocketBroker():
+class SocketClientBroker():
     def __init__(self, operacao):
         self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self._socket.connect((HOST, SOCKET_PORT))

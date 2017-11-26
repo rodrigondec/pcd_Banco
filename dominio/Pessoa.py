@@ -2,9 +2,9 @@ from random import choice, randrange
 from threading import Thread, Event
 from time import sleep
 
-from sckt.SocketBroker import SocketBroker
+from sckt.SocketClientBroker import SocketClientBroker
 from rmi.RMIClientBroker import RMIClientBroker
-from rest.RestBroker import RestBroker
+from rest.RestClientBroker import RestClientBroker
 
 from dominio.Logger import Log
 from dominio.Operacao import Deposito, Saque, Transferencia
@@ -129,7 +129,7 @@ class PessoaSocket(Pessoa):
         Pessoa.__init__(self)
 
     def realizar_operacao(self, operacao):
-        return SocketBroker(operacao).execute()
+        return SocketClientBroker(operacao).execute()
 
 
 class DependenteSocket(Dependente):
@@ -137,7 +137,7 @@ class DependenteSocket(Dependente):
         Dependente.__init__(self)
 
     def realizar_operacao(self, operacao):
-        return SocketBroker(operacao).execute()
+        return SocketClientBroker(operacao).execute()
 
 
 class PessoaRMI(Pessoa):
@@ -161,7 +161,7 @@ class PessoaRest(Pessoa):
         Pessoa.__init__(self)
 
     def realizar_operacao(self, operacao):
-        return RestBroker(operacao).execute()
+        return RestClientBroker(operacao).execute()
 
 
 class DependenteRest(Dependente):
@@ -169,5 +169,5 @@ class DependenteRest(Dependente):
         Dependente.__init__(self)
 
     def realizar_operacao(self, operacao):
-        return RestBroker(operacao).execute()
+        return RestClientBroker(operacao).execute()
 

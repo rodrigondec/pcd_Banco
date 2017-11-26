@@ -3,7 +3,7 @@ import json
 from config import REST_PORT
 
 
-class RestBroker:
+class RestClientBroker:
     def __init__(self, operacao):
         self.operacao = operacao
 
