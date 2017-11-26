@@ -15,13 +15,6 @@ A sincronização da espera do investimento foi feita através do [Event object]
 ## Código
 
 ```py
-from threading import Thread, Event
-from time import sleep
-from dominio.Operacao import Operacao, OperacaoUnary, OperacaoBinary
-from dominio.Conta import Conta
-from dominio.Logger import Log
-
-
 class Banco(object):
     """banco"""
     log = Log("banco")
