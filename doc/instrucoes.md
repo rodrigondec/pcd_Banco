@@ -2,18 +2,28 @@
 
 ## Requerimentos
 
-* [Python 3.6.1](https://www.python.org/ftp/python/3.6.1/python-3.6.1.exe)
+* [Python 3.6.3](https://www.python.org/downloads/release/python-363/)
+* [Pyro4](https://pythonhosted.org/Pyro4/)
+* [Flask](http://flask.pocoo.org/)
+* [Flask-Restplus](https://flask-restplus.readthedocs.io/en/stable/)
 
 ## Executando
 
-Para executar o programa, deverá ser rodado o comando abaixo dentro da pasta raiz do projeto juntamente com argumentos adicionas na linha de comando.
+Para executar o programa, deverá ser rodado os comandos abaixo dentro da pasta raiz do projeto.
 
-Após a execução dos programas, são salvos arquivos `<nome>.log` na pasta `/logs` do programa contendo as informações fornecidas durante a execução.
+Durante a execução dos programas, são salvos arquivos `<nome>.log` na pasta `/logs` do programa contendo as informações fornecidas durante a execução.
+
+### Servidor
 
 ```
-python main.py <qt_pessoas> <qt_dependentes> <qt_caixas>
-
-<qt_pessoas> = Número de pessoas (sem dependentes inclusos)
-<qt_dependentes> = Número de dependentes
-<qt_caixas> = Números de caixas do banco
+python server.py
 ```
+
+### Clientes
+
+```
+python clients.py
+```
+
+
+
