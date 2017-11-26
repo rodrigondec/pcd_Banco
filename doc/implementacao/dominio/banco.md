@@ -2,13 +2,11 @@
 
 ## Descrição
 
-A classe Banco interage diretamente com as classes Caixa e Conta, utilizando seus métodos de acesso para os objetos já instânciados. O Banco utiliza o pattern Singleton, garantindo que só haverá uma instância do objeto durante a execução do código.
+A classe Banco interage diretamente com a classe Conta, utilizando seus métodos de acesso para os objetos já instânciados. O Banco utiliza o pattern Singleton, garantindo que só haverá uma instância do objeto durante a execução do código.
 
 O Banco possui uma thread que de tempos em tempos irá investir o dinheiro dos clientes, e durante o investimento bloqueará a execução de operações.
 
 A sincronização da espera do investimento foi feita através do [Event object](https://docs.python.org/3/library/threading.html#event-objects) do Python 3. Quando o investimento terminar, todas as requisições de operações feitas pelas pessoas irão prosseguir com a execução.
-
-Toda operação recebida pelo banco é adicionada na fila dos caixas, na qual esperarão sua vez de serem processadas de acordo com a classe Caixa.
 
 ## Diagrama
 
@@ -17,10 +15,16 @@ Toda operação recebida pelo banco é adicionada na fila dos caixas, na qual es
 ## Código
 
 ```py
+from threading import Thread, Event
+from time import sleep
+from dominio.Operacao import Operacao, OperacaoUnary, OperacaoBinary
+from dominio.Conta import Conta
+from dominio.Logger import Log
+
+
 class Banco(object):
     """banco"""
     log = Log("banco")
-    qt_caixas = None
 
     def __new__(type):
         if not '_instance' in type.__dict__:
@@ -29,9 +33,6 @@ class Banco(object):
         return type._instance
 
     def init(self):
-        for _ in range(0, Banco.qt_caixas):
-            Caixa()
-
         self.disponivel = Event()
         self.disponivel.set()
 
@@ -42,7 +43,7 @@ class Banco(object):
         return "Banco"
 
     def investimento(self):
-        sleep(10)
+        sleep(20)
         while True:
             try:
                 self.disponivel.clear()
@@ -62,29 +63,27 @@ class Banco(object):
 
             sleep(15)
 
-    def criar_conta(self, pessoa):
-        Conta(pessoa.get_id())
+    def criar_conta(self, id_pessoa):
+        Conta(id_pessoa)
 
     def realizar_operacao(self, operacao):
+        if operacao.get_id_pessoa() not in Conta.contas:
+           self.criar_conta(operacao.get_id_pessoa())
         if not self.disponivel.is_set():
-            type(operacao.pessoa).log.info("espera banco terminar de investir")
+            Banco.log.info("Pessoa {} espera banco terminar de investir".format(operacao.id_pessoa))
             self.disponivel.wait()
 
         assert isinstance(operacao, Operacao)
         if isinstance(operacao, OperacaoUnary):
-            operacao.before(Conta.get_conta(operacao.pessoa.get_id()))
+            operacao.before(Conta.get_conta(operacao.get_id_pessoa()))
         elif isinstance(operacao, OperacaoBinary):
-            operacao.before(conta_o=Conta.get_conta(operacao.pessoa.get_id()),
-                            conta_d=Conta.get_conta(operacao.pessoa_d.get_id()))
-
-        self._adicionar_fila(operacao.pessoa)
+            if operacao.get_id_pessoa_d() not in Conta.contas:
+                self.criar_conta(operacao.get_id_pessoa_d())
+            operacao.before(conta_o=Conta.get_conta(operacao.get_id_pessoa()),
+                            conta_d=Conta.get_conta(operacao.get_id_pessoa_d()))
 
         return operacao.execute()
-
-    def _adicionar_fila(self, pessoa):
-        if not pessoa.vez.is_set():
-            type(pessoa).log.info("entrou na fila do banco")
-            Caixa.fila.put(pessoa)
-            type(pessoa).log.info("espera sua vez")
-            pessoa.vez.wait()
 ```
+
+
+
